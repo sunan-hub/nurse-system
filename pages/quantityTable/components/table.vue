@@ -1,14 +1,14 @@
 <template>
 	<view>
-		<navbar :quantityTable="quantityTable" showGoback="true" />
+		<!-- <navbar :quantityTable="quantityTable" showGoback="true" /> -->
 
 		<view>
-			<form @submit="formSubmit" @reset="formReset">
+			<form @submit="formSubmit" @reset="formReset" form="evaluateFormRef">
 				<view>基本信息</view>
 
 				<view class="uni-form-item uni-column">
 					<view class="title">{{name}}</view>
-					<input class="uni-input" name="input" placeholder="请输入姓名" />
+					<input class="uni-input" name="input" placeholder="请输入姓名" v-model="formData.name" />
 				</view>
 
 				<!-- <view class="uni-form-item uni-column">
@@ -18,32 +18,31 @@
 					</view>
 				</view> -->
 
-
 				<view class="uni-form-item uni-column">
 					<view class="title">{{sex}}</view>
-					<radio-group name="sex">
+					<radio-group name="sex" @change="sexChange">
 						<label>
-							<radio value="radio1" /><text>男</text>
+							<radio value=1 :checked="formData.sex == 1" /><text>男</text>
 						</label>
 						<label>
-							<radio value="radio2" /><text>女</text>
+							<radio value=0 :checked="formData.sex == 0" /><text>女</text>
 						</label>
 					</radio-group>
 				</view>
 
 				<view class="uni-form-item uni-column">
 					<view class="title">{{age}}</view>
-					<input class="uni-input" name="input" placeholder="请输入年龄" />
+					<input class="uni-input" name="input" placeholder="请输入年龄" v-model="formData.age" />
 				</view>
 
 				<view class="uni-form-item uni-column">
 					<view class="title">{{height}}</view>
-					<input class="uni-input" name="input" placeholder="请输入身高" />
+					<input class="uni-input" name="input" placeholder="请输入身高" v-model="formData.height" />
 				</view>
 
 				<view class="uni-form-item uni-column">
 					<view class="title">{{weight}}</view>
-					<input class="uni-input" name="input" placeholder="请输入体重" />
+					<input class="uni-input" name="input" placeholder="请输入体重" v-model="formData.weight" />
 				</view>
 
 
@@ -51,10 +50,10 @@
 					<view class="title">{{city}}</view>
 					<radio-group name="radio">
 						<label>
-							<radio value="radio" /><text>城市</text>
+							<radio value="city" /><text>城市</text>
 						</label>
 						<label>
-							<radio value="radio" /><text>农村</text>
+							<radio value="village" /><text>农村</text>
 						</label>
 					</radio-group>
 				</view>
@@ -91,9 +90,9 @@
 						</label>
 					</radio-group> -->
 
-					<radio-group v-model="radioValue">
-						<radio value="是">是</radio>
-						<radio value="否">否</radio>
+					<radio-group>
+						<radio value=1>是</radio>
+						<radio value=0>否</radio>
 					</radio-group>
 					<input v-if="radioValue === '否'" />
 				</view>
@@ -103,10 +102,10 @@
 					<slider value="50" name="slider" show-value></slider>
 				</view>
 
-				<view class="uni-btn-v">
+				<!-- 				<view class="uni-btn-v">
 					<button form-type="submit">Submit</button>
 					<button type="default" form-type="reset">Reset</button>
-				</view>
+				</view> -->
 			</form>
 		</view>
 	</view>
@@ -114,8 +113,14 @@
 
 <script>
 	import navbar from '@/components/navbar/navbar.vue';
-	
+
 	export default {
+		props: {
+			defaultValue: {
+				type: Object,
+				required: false
+			},
+		},
 		data() {
 			return {
 				safeAreaInsets: null,
@@ -130,6 +135,22 @@
 				drug: "毒药物接触史：",
 				radioValue: '是',
 				inputValue: '',
+				formData: this.defaultValue || {
+					name: "朱子安",
+					sex: 0,
+					age: 21,
+					height: 155,
+					weight: 54,
+					city: "city",
+					career: "checkbox2",
+					drug: 0,
+				},
+			}
+		},
+		watch: {
+			formData: {
+				handler: 'handleFormDataChange',
+				deep: true
 			}
 		},
 		mounted() {
@@ -156,6 +177,14 @@
 			},
 			formReset: function(e) {
 				console.log('清空数据')
+			},
+			// 修改性别
+			sexChange(e) {
+				this.$set(this.formData, 'sex', e.detail.value)
+			},
+			// 监听表单值变化
+			handleFormDataChange(value) {
+				this.$emit('handleFormDataChange', value);
 			}
 		}
 	}

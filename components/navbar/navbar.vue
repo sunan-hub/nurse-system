@@ -4,7 +4,7 @@
 			<image v-if="showGoback" class="goback-icon" src="../../static/goback.png" />
 		</view>
 		<view class="title">
-			<text class="navtext">{{quantityTable}}</text>
+			<text class="navtext">{{quantityTable || '测量系统'}}</text>
 		</view>
 		<view class="occupied" />
 	</view>
@@ -13,43 +13,42 @@
 <script>
 	export default {
 		props: {
-		    quantityTable: {
+			quantityTable: {
 				type: String,
 				required: true
-		    },
+			},
 			showGoback: {
-				type: String,
+				type: Boolean,
 				required: false
 			}
-		  },
+		},
 		data() {
 			return {
 				safeAreaInsets: null,
-				quantityTable:"我的",
 			}
 		},
 		computed: {
-			
+
 		},
-		created(){
-			
+		created() {
+
 		},
 		mounted() {
-		  this.getSafeAreaInsets()
+			this.getSafeAreaInsets()
 		},
 		methods: {
 			getSafeAreaInsets() {
-			  // 获取屏幕边界到安全区域距离
-			  const systemInfo = uni.getSystemInfoSync()
-			  this.safeAreaInsets = systemInfo.safeAreaInsets
+				// 获取屏幕边界到安全区域距离
+				const systemInfo = uni.getSystemInfoSync()
+				this.safeAreaInsets = systemInfo.safeAreaInsets
 			},
 			goback() {
-				if(this.showGoback)
-				uni.navigateBack().catch(() => {
-					uni.switchTab({
-						url: '/pages/home/home'
-					})
-				});
+				if (this.showGoback)
+					uni.navigateBack().catch(() => {
+						uni.switchTab({
+							url: '/pages/home/home'
+						})
+					});
 			}
 		}
 	};
@@ -64,7 +63,7 @@
 		align-items: center;
 		justify-content: space-between;
 		padding-bottom: 28rpx;
-		
+
 		// 返回
 		.goback {
 			width: 40px;
@@ -72,28 +71,27 @@
 			align-items: center;
 			justify-content: center;
 			cursor: pointer;
+
 			.goback-icon {
 				width: 24px;
 				height: 24px;
 			}
 		}
-		
+
 		// 
 		.title {
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			.navtext{
+
+			.navtext {
 				color: white;
 			}
 		}
-		
+
 		// 占位符
 		.occupied {
 			width: 40px;
 		}
 	}
-	
-
-
 </style>

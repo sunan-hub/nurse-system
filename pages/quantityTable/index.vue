@@ -1,6 +1,8 @@
 <template>
 	<view class="wrapper">
-		<navbar :quantityTable="dynamicValue" />
+		<view class="navbar" :style="{ paddingTop: safeAreaInsets ? safeAreaInsets.top + 5 +'px' : '0' }">
+			<text class="navtext">{{quantityTable}}</text>
+		</view>
 
 		<!-- 个人资料 -->
 		<view>
@@ -9,71 +11,70 @@
 					<view class="center_top">
 						<view class="center_img">
 							<!-- 这里可以放自己的静态头像 -->
-							<image src="/static/nurse.png"></image>
+							<image src="/static/old.png"></image>
 							<open-data type="userAvatarUrl" class="user_head"></open-data>
 						</view>
 						<view class="center_info">
-							<text>{{nurse_id}}</text>
+							<text>{{old_id}}</text>
 						</view>
 					</view>
 				</view>
 			</view>
 		</view>
 
-
 		<!-- 其它 -->
 		<view class="extra">
 			<uni-list>
-				<!-- <uni-list-item v-for="item in itemList" :key="item.title" :title="item.title" :note="item.note"  :thumb="item.thumb" :thumb-size="item.thumbSize" showArrow  :link="navigateTo" :to="item.to"/> -->
-				<uni-list-item title="修改资料" note="" thumb="/static/psw.png" thumbSize="lg" link="navigateTo"
-					to="/pages/test/test" showArrow />
-
-				<uni-list-item>
-					<view slot="header">
-						<image style="width: 85rpx;height: 85rpx;" src="/static/feedback.png" mode="widthFix" />
-					</view>
-
-					<button slot="body" class="slot-text" open-type="feedback">意见反馈</button>
-					<!-- <template slot="footer">
-		  					<image style="width: 30px;height: 30px;" src="/static/feedback.png" mode="widthFix"/>
-		  				</template> -->
-				</uni-list-item>
-
-				<uni-list-item>
-					<view slot="header">
-						<!-- <image style="width: 30px;height: 30px;" src="/static/service.png" mode="widthFix"/> -->
-
-						<image style="width: 75rpx;height: 75rpx;" src="/static/service.png" mode="aspectFit" />
-
-					</view>
-
-					<button slot="body" class="slot-text" open-type="contact">联系客服</button>
-					<!-- <template slot="footer">
-							<image style="width: 30px;height: 30px;" src="/static/service.png" mode="widthFix"/>
-						</template> -->
-				</uni-list-item>
-
-				<uni-list-item title="退出登录" note="" thumb="/static/logout.png" thumbSize="lg" link="navigateTo"
-					to="/pages/login/login" showArrow />
-
+				<uni-list-item v-for="item in itemList" :key="item.title" :title="item.title" :note="item.note"
+					:thumb="item.thumb" :thumb-size="item.thumbSize" showArrow :link="navigateTo" :to="item.to" />
 			</uni-list>
 		</view>
 	</view>
 </template>
 
 <script>
-	import navbar from '@/components/navbar/navbar.vue';
-
 	export default {
-		components: {
-			navbar
-		},
 		data() {
 			return {
-				// safeAreaInsets: null,
-				dynamicValue: "我的",
-				nurse_id: "护士id",
-
+				safeAreaInsets: null,
+				quantityTable: "阿尔兹海默病筛查",
+				old_id: "老人id",
+				itemList: [{
+						title: '阿尔兹海默病早期筛查及评估',
+						note: '',
+						thumb: '/static/quantityTable.png',
+						thumbSize: 'lg',
+						to: '/pages/quantityTable/table1'
+					},
+					{
+						title: 'Mini-Cog量表',
+						note: '',
+						thumb: '/static/quantityTable.png',
+						thumbSize: 'lg',
+						to: '/pages/recording/recording'
+					},
+					{
+						title: 'HIS量表',
+						note: '',
+						thumb: '/static/quantityTable.png',
+						thumbSize: 'lg',
+						to: '/pages/index/index'
+					},
+					{
+						title: 'MMSE量表',
+						note: '',
+						thumb: '/static/quantityTable.png',
+						thumbSize: 'lg',
+						to: '/pages/test/test'
+					},
+					{
+						title: 'MoCA量表',
+						note: '',
+						thumb: '/static/quantityTable.png',
+						thumbSize: 'lg',
+						to: '/pages/test/test'
+					},
+				]
 
 			}
 		},
@@ -83,15 +84,16 @@
 		created() {
 
 		},
-		// mounted() {
-		//   this.getSafeAreaInsets()
-		// },
+		mounted() {
+			this.getSafeAreaInsets()
+		},
 		methods: {
-			// getSafeAreaInsets() {
-			//   // 获取屏幕边界到安全区域距离
-			//   const systemInfo = uni.getSystemInfoSync()
-			//   this.safeAreaInsets = systemInfo.safeAreaInsets
-			// },
+			getSafeAreaInsets() {
+				// 获取屏幕边界到安全区域距离
+				const systemInfo = uni.getSystemInfoSync()
+				this.safeAreaInsets = systemInfo.safeAreaInsets
+			},
+
 		}
 	};
 </script>
@@ -99,6 +101,22 @@
 <style scoped lang="scss">
 	Page {
 		font-size: 14px;
+	}
+
+	.navbar {
+		background-image: url(@/static/navigator_bg.png);
+		background-size: cover;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		padding-top: 32px;
+		padding-bottom: 28rpx;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.navtext {
+		color: white;
 	}
 
 	.top {
