@@ -8,12 +8,17 @@ function uploadimg(data) {
   i = data.i ? data.i : 0,  //当前上传的哪张图片
   success = data.success ? data.success : 0,  //上传成功的个数
   fail = data.fail ? data.fail : 0;  //上传失败的个数
+  
+  
+  console.log('22222222222222222222222222 im in');	
   uni.uploadFile({
 		url: data.url, //从调用页面传入 -- url: 'http://127.0.0.1:3000/' 后端接口地址
 		filePath: data.path[i], //从调用页面传入 --path: imgbox, 选取图片的地址数组  
 		name: 'img', //文件名称可以自定义，要与后端配对使用：app.post('/',upload.single('img'),function(req,res,next)
 		formData: {  //这里是上传图片时一起上传的数据
-			user: data.user,
+			// user: data.user,
+			patient_name: data.patient_name,
+			patient_id: data.patient_id,
 		},
 
 		success: (resp) => {
@@ -24,6 +29,8 @@ function uploadimg(data) {
 
 		fail: (res) => {  //失败
 			fail++;//图片上传失败，图片上传失败的变量+1
+			console.log('33333333333333333333333333333333 ');
+			
 			console.log('fail:' + i + "fail:" + fail);
 		},
 

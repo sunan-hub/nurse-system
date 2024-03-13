@@ -1,6 +1,10 @@
 <template>
 	<view>
 		<view class='pages'>
+			<view class="navbar" :style="{ paddingTop: safeAreaInsets ? safeAreaInsets.top + 5 +'px' : '0' }">
+			<text class="navtext">{{quantityTable}}</text>
+			</view>
+			
 			<!-- 题目 -->
 			<view class="question">
 			<view class="question_order">{{ quantityTableType }}量表 2/3</view>
@@ -39,13 +43,25 @@
 				imglist:[],//选择图片后生成的临时地址数组
 				imglist00:[],
 				quantityTableType:"Mini-Cog",
-				question_content:"画出钟表表盘：\n徒手画出11:10或8:20"
+				question_content:"画出钟表表盘：\n徒手画出11:10或8:20",
+				safeAreaInsets: null,
+				quantityTable:"HIS量表",
 			}
 		},
 		
 		onLoad() {	},
 		
-		methods: {		
+		mounted() {
+		  this.getSafeAreaInsets()
+		},
+		
+		methods: {	
+			getSafeAreaInsets() {
+			  // 获取屏幕边界到安全区域距离
+			  const systemInfo = uni.getSystemInfoSync()
+			  this.safeAreaInsets = systemInfo.safeAreaInsets
+			},
+			
 			//*选择图片*//
 			addPic1: async function() {
 				let that = this				
@@ -79,13 +95,22 @@
 				let app = getApp()
 				let that = this
 				let upimg = require("./upimg.js") //引用当前目录下的自定义函数
-					
+				console.log(11111111);	
 				if (that.imglist.length != 0 ) { //数组不为空的时候才执行 				
+					// upimg.uploadimg({ //********* 调用引入的upimg.js文件uploadimg函数 ************
+					// 	url: app.globalData.url+'/imgup', //全局变量，后端接口地址
+					// 	path: that.imglist, //选取图片的临时地址数组 
+					// 	user: app.globalData.username, 
+					// });
+					
 					upimg.uploadimg({ //********* 调用引入的upimg.js文件uploadimg函数 ************
-						url: app.globalData.url+'/imgup', //全局变量，后端接口地址
+						url: 'http://47.113.91.80:8002/file_upload1', //全局变量，后端接口地址
 						path: that.imglist, //选取图片的临时地址数组 
-						user: app.globalData.username, 
+						patient_name: 1, 
+						patient_id: 1,
 					});
+					
+					
 					uni.showToast({  //显示对话框
 						title: "上传中！",
 						icon: 'loading',
@@ -111,10 +136,27 @@
 </script>
 
 <style lang="less">
+	.navbar {
+	  background-image: url(@/static/navigator_bg.png);
+	  background-size: cover;
+	  position: relative;
+	  display: flex;
+	  flex-direction: column;
+	  padding-top: 32px;
+	  padding-bottom: 28rpx;
+	  justify-content: center;
+	  align-items: center;
+	}
+	
+	.navtext{
+		color: white;
+	}
 	.pages {
 			box-sizing: border-box;
-			padding: 16rpx;
+			// padding: 16rpx;
 			width: 100vw;
+			
+			
 				
 			.question_order{
 				font-weight: bold;

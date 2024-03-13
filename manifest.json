@@ -1,6 +1,6 @@
 {
-    "name" : "nurse-system",
-    "appid" : "",
+    "name" : "QuantityTable",
+    "appid" : "__UNI__31F4DAD",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -50,7 +50,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "wxdb42f392ab76a153",
         "setting" : {
             "urlCheck" : false
         },

@@ -1,24 +1,155 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	// {
+	// 	"path": "pages/quantityTable/table",
+	// 	"style": {
+	// 		"navigationStyle": "custom", // 隐藏默认导航
+	// 		"navigationBarBackgroundColor": "#76EEC6",
+	// 		"navigationBarTextStyle": "white",
+	// 		"navigationBarTitleText": "阿尔兹海默病早期筛查及评估"
+	// 	}
+	// },
+	{
+		"path": "pages/home/home",
+		"style": {
+			"navigationStyle": "custom", // 隐藏默认导航
+			"navigationBarBackgroundColor": "#76EEC6",
+			"navigationBarTextStyle": "white",
+			"navigationBarTitleText": "首页"
+		}
+	},
+	{
+		"path": "pages/recording1/recording1",
+		"style": {
+			"navigationStyle": "custom", // 隐藏默认导航
+			"navigationBarBackgroundColor": "#76EEC6",
+			"navigationBarTextStyle": "white",
+			"navigationBarTitleText": "Mini-Cog量表"
+		}
+	},
+	
+	{
+		"path": "pages/uniCard/uniCard",
+		"style": {
+			// "navigationStyle": "custom", // 隐藏默认导航
+			"navigationBarBackgroundColor": "#76EEC6",
+			"navigationBarTextStyle": "white",
+			"navigationBarTitleText": "uniCard"
+		}
+	},
+	{
+		"path": "pages/query/query",
+		"style": {
+			"navigationStyle": "custom", // 隐藏默认导航
+			"navigationBarBackgroundColor": "#76EEC6",
+			"navigationBarTextStyle": "white",
+			"navigationBarTitleText": "查询"
+		}
+	},
+	{
+		"path": "pages/qnr3/qnr3",
+		"style": {
+			"navigationStyle": "custom", // 隐藏默认导航
+			"navigationBarBackgroundColor": "#76EEC6",
+			"navigationBarTextStyle": "white"
+			// "navigationBarTitleText": "HIS量表"
+		}
+	},
+	
+	
+	{
+		"path": "pages/quantityTable/table1",
+		"style": {
+			"navigationStyle": "custom", // 隐藏默认导航
+			"navigationBarBackgroundColor": "#76EEC6",
+			"navigationBarTextStyle": "white",
+			"navigationBarTitleText": "阿尔兹海默病早期筛查及评估"
+		}
+	},
+	
+	
+	{
+		"path": "pages/table3/table3",
+		"style": {
+			"navigationStyle": "custom", // 隐藏默认导航
+			"navigationBarBackgroundColor": "#76EEC6",
+			"navigationBarTextStyle": "white",
+			"navigationBarTitleText": "我的"
+		}
+	},
+	{
+		"path": "pages/mine/mine",
+		"style": {
+			"navigationStyle": "custom", // 隐藏默认导航
+			"navigationBarBackgroundColor": "#76EEC6",
+			"navigationBarTextStyle": "white",
+			"navigationBarTitleText": "我的"
+		}
+	},
+	
+	// {
+	// 	"path": "pages/navbar/navbar",
+	// 	"style": {
+	// 		"navigationStyle": "custom", // 隐藏默认导航
+	// 		"navigationBarBackgroundColor": "#76EEC6",
+	// 		"navigationBarTextStyle": "white",
+	// 		"navigationBarTitleText": "我的"
+	// 	}
+	// },
+	
+	
+	
+	{
+		"path": "pages/recording/recording",
+		"style": {
+			"navigationStyle": "custom", // 隐藏默认导航
+			"navigationBarBackgroundColor": "#76EEC6",
+			"navigationBarTextStyle": "white",
+			"navigationBarTitleText": "Mini-Cog量表"
+		}
+	},
+	
+	
+	
+	{
+		"path": "pages/index/index",
+		"style": {
+			"navigationStyle": "custom", // 隐藏默认导航
+			"navigationBarBackgroundColor": "#76EEC6",
+			"navigationBarTextStyle": "white",
+			"navigationBarTitleText": "Mini-Cog量表"
+		}
+	},
+	
+	
+	
+	
+	
+	{
+		"path": "pages/quantityTable/quantityTable",
+		"style": {
+			"navigationStyle": "custom", // 隐藏默认导航
+			"navigationBarBackgroundColor": "#76EEC6",
+			"navigationBarTextStyle": "white",
+			"navigationBarTitleText": "阿尔兹海默病筛查"
+		}
+	},
+	
+	
+	
+	
+		
 		
 		{
-			"path": "pages/mine/mine",
+			"path": "pages/login/login",
 			"style": {
 				"navigationStyle": "custom", // 隐藏默认导航
 				"navigationBarBackgroundColor": "#76EEC6",
 				"navigationBarTextStyle": "white",
-				"navigationBarTitleText": "我的"
+				"navigationBarTitleText": "登录"
 			}
 		},
-		{
-			"path": "pages/result/result",
-			"style": {
-				"navigationStyle": "custom", // 隐藏默认导航
-				"navigationBarBackgroundColor": "#76EEC6",
-				"navigationBarTextStyle": "white",
-				"navigationBarTitleText": "结果"
-			}
-		},
+		
 		{
 			"path": "pages/test/test",
 			"style": {
@@ -28,36 +159,23 @@
 				"navigationBarTitleText": "test"
 			}
 		},
+		
 		{
-			"path": "pages/home/home",
+			"path": "pages/result/result",
 			"style": {
 				"navigationStyle": "custom", // 隐藏默认导航
 				"navigationBarBackgroundColor": "#76EEC6",
 				"navigationBarTextStyle": "white",
-				"navigationBarTitleText": "首页"
-			}
-		},
-		
-		
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationStyle": "custom", // 隐藏默认导航
-				"navigationBarBackgroundColor": "#76EEC6",
-				"navigationBarTextStyle": "white",
-				"navigationBarTitleText": "Mini-Cog量表"
-			}
-		},
-		
-		{
-			"path": "pages/recording/recording",
-			"style": {
-				"navigationStyle": "custom", // 隐藏默认导航
-				"navigationBarBackgroundColor": "#76EEC6",
-				"navigationBarTextStyle": "white",
-				"navigationBarTitleText": "Mini-Cog量表"
+				"navigationBarTitleText": "结果"
 			}
 		}
+		
+		
+		
+		
+		
+		
+		
 	],
 	"tabBar": {
 		"borderStyle": "black",

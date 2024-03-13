@@ -1,6 +1,12 @@
 <template>
 	<view class="page">
-		<navbar :quantityTable="quantityTable" showGoback="true" />
+		
+		
+		
+		<view class="navbar" :style="{ paddingTop: safeAreaInsets ? safeAreaInsets.top + 5 +'px' : '0' }">
+		<text class="navtext">{{quantityTable}}</text>
+		</view>
+		
 		<view class="quenaire">
 			<view class="question-box">
 				<view class="question">
@@ -35,6 +41,8 @@
 						</view>
 					</view>
 				</view>
+				
+				<button>提交</button>
 			</view>
 		</view>
 	</view>
@@ -42,7 +50,6 @@
 
 <script>
 	import luchAudio from '@/components/luch-audio/luch-audio.vue';
-	import navbar from '@/components/navbar/navbar.vue';
 
 	export default {
 		components: {
@@ -277,6 +284,7 @@
 </script>
 
 <style lang="less" scoped>
+
 	
 .page {
 	width: 100vw;
@@ -286,6 +294,24 @@
 	box-sizing: border-box;
 }	
 
+
+
+	// /* 自定义导航条 */
+	// .navbar {
+	// 	background-image: url(@/static/navigator_bg.png);
+	// 	background-size: cover;
+	// 	position: relative;
+	// 	display: flex;
+	// 	padding: 32px 8px 14px 8px;
+	// 	// justify-content: space-between;
+	// 	justify-content:center;
+	// 	align-items: center;
+
+	// 	.navtext {
+	// 		color: white;
+	// 	}
+	// }
+	
 	.navbar {
 			  background-image: url(@/static/navigator_bg.png);
 			  background-size: cover;
