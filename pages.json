@@ -156,6 +156,14 @@
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "结果"
 			}
+		},
+		{
+			"path" : "components/playa-audio/playa-audio/playa-audio",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 	"tabBar": {

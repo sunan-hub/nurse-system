@@ -1,9 +1,7 @@
 <template>
 	<view>
-		<!-- <navbar :quantityTable="quantityTable" showGoback="true" /> -->
-
 		<view>
-			<form @submit="formSubmit" @reset="formReset" form="evaluateFormRef">
+			<form @submit="formSubmit" @reset="formReset">
 				<view>基本信息</view>
 
 				<view class="uni-form-item uni-column">

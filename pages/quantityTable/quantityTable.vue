@@ -29,8 +29,8 @@
 			<!-- 组件页面 -->
 			<evaluateForm v-else-if="currentpage == 1" :defaultValue="evaluateFormValue"
 				@handleFormDataChange="handleEvaluateFormDataChange" />
-			<recording v-else-if="currentpage == 2" />
-			<imgUpload v-else-if="currentpage == 3" @onChange="handleUploadImg" />
+			<recording v-else-if="currentpage == 2" @onChange="handleSaveRecording" :defaultValue="recordingVoicePath"/>
+			<imgUpload v-else-if="currentpage == 3" @onChange="handleSaveImg" />
 			<mmse v-else-if="currentpage == 4 " />
 			<moca v-else-if="currentpage == 5" />
 		</view>
@@ -67,11 +67,15 @@
 				quantityTable: "阿尔兹海默病筛查",
 				old_id: "老人id",
 				currentpage: 0,
+				// 第一个表单的数据
 				evaluateFormValue: {
 					name: '孙安',
 					sex: 1
 				},
+				// 图片list
 				imgList: [],
+				// 录音
+				recordingVoicePath: '',
 				itemList: [{
 						title: '阿尔兹海默病早期筛查及评估',
 						note: '',
@@ -135,11 +139,11 @@
 			},
 			// 切换页面
 			switchPage(type) {
-				console.log('evaluateFormRef', this.evaluateFormRef)
 				if (type == 'up') this.currentpage += 1;
 				else if (type == 'down') this.currentpage -= 1;
 				else if (type == 'submit') {
-					console.log('提交', JSON.stringify(this.evaluateFormValue), this.imgList)
+					console.log('提交', JSON.stringify(this.evaluateFormValue), this.imgList, this.recordingVoicePath);
+					// 接口上传 TODO
 				} else this.currentpage = 0;
 			},
 			// 测评表单数据变化
@@ -147,9 +151,14 @@
 				this.evaluateFormValue = data;
 			},
 			// 上传图片发生变化
-			handleUploadImg(data) {
-				console.log('@onChange', data)
+			handleSaveImg(data) {
+				console.log('handleSaveImg', data)
 				this.imgList = data;
+			},
+			// 录音文件发生变化
+			handleSaveRecording(data) {
+				console.log('handleSaveRecording', data)
+				this.recordingVoicePath = data;
 			}
 		}
 	};

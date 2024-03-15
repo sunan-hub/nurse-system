@@ -15,7 +15,7 @@
 					<view class='img-box'>
 						<image class='img' :src='item' mode='aspectFit'></image>
 						<view class='img-delete' @click='imgDelete1' :data-delindex="index">
-							<image class='img' src='../../static/delect.png'></image>
+							<image class='img' src='../../../static/delect.png'></image>
 						</view>
 					</view>
 				</block>
@@ -167,8 +167,8 @@
 			justify-content: space-evenly;
 
 			.img-box {
-				width: calc(100% - 48px);
-				height: calc(100% - 48px);
+				width: calc(100% - 68px);
+				height: calc(100% - 68px);
 				margin-top: 30rpx;
 				margin-bottom: 30rpx;
 				// background-color: #c7d6d2;
