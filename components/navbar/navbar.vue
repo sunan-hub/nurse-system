@@ -4,7 +4,7 @@
 			<image v-if="showGoback" class="goback-icon" src="../../static/goback.png" />
 		</view>
 		<view class="title">
-			<text class="navtext">{{quantityTable || '测量系统'}}</text>
+			<text class="navtext">{{pageTitle || '测量系统'}}</text>
 		</view>
 		<view class="occupied" />
 	</view>
@@ -13,7 +13,7 @@
 <script>
 	export default {
 		props: {
-			quantityTable: {
+			pageTitle: {
 				type: String,
 				required: true
 			},

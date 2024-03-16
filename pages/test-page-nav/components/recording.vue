@@ -1,20 +1,18 @@
 <template>
 	<view class="page">
-		<navbar :quantityTable="quantityTable" showGoback="true" />
 		<view class="quenaire">
 			<view class="question-box">
 				<view class="question">
 					<view class="question_order">{{ quantityTableType }}量表 1/3</view>
 					<view class="question_content">
-						<text>{{ question_content }}</text>
+						<text>{{ tips }}</text>
 					</view>
 				</view>
-
 				<view class="audioShow">
-					<luch-audio v-if="audioContent && startRecording == 0" :src="audioContent" :play.sync="audioPlayNew"
-						@delete="audioDelete" :audioDuration="audioDuration"></luch-audio>
+					<view class="play-wrap">
+						<playa-audio v-if="!!(voicePath || defaultValue) && startRecording  == 0" :src="voicePath || defaultValue" />
+					</view>
 					<view class="recordBegin" @tap="startRecord" v-if="startRecording == 0">
-						<!-- <image src="../../static/record.png"></image> -->
 						<view class="text">
 							录音
 						</view>
@@ -24,13 +22,13 @@
 					</view>
 					<view class="recordingShow" v-if="startRecording == 1">
 						<view class="cancelBtn" @tap="endRecord">
-							<image src="../../static/cancel.png"></image><br>
+							<image src="../../../static/cancel.png"></image><br>
 							<text>取消</text>
 						</view>
-						<image v-if="isZant == false" src="../../static/recording.png" @tap="endRecordPic"></image>
-						<image v-else src="../../static/zant.png" @tap="startRecordPic"></image>
+						<image v-if="isZant == false" src="../../../static/recording.png" @tap="endRecordPic"></image>
+						<image v-else src="../../../static/zant.png" @tap="startRecordPic"></image>
 						<view class="saveBtn" @tap="saveRecord">
-							<image src="../../static/save.png"></image><br>
+							<image src="../../../static/save.png"></image><br>
 							<text>保存</text>
 						</view>
 					</view>
@@ -42,11 +40,17 @@
 
 <script>
 	import luchAudio from '@/components/luch-audio/luch-audio.vue';
+	import playaAudio from '@/components/playa-audio/playa-audio.vue';
 	import navbar from '@/components/navbar/navbar.vue';
 
 	export default {
 		components: {
 			luchAudio,
+			playaAudio,
+		},
+		props: {
+			defaultValue: '',
+			tips: ''
 		},
 		data() {
 			return {
@@ -67,52 +71,34 @@
 				isZant: false,
 				audioDuration: '',
 				quantityTableType: "Mini-Cog",
-				question_content: "认真听并重复以下词语：\n苹果 手表 硬币",
-				quantityTable:"Mini-Cog量表",
+				// question_content: "认真听并重复以下词语：\n苹果 手表 硬币",
+				quantityTable: "Mini-Cog量表",
 			}
 		},
-		onLoad(options) {
-			this.recorderManager = wx.getRecorderManager();
-			this.innerAudioContext = wx.createInnerAudioContext();
+		created() {
+			console.log('执行了么')
+			this.recorderManager = uni.getRecorderManager();
+			this.innerAudioContext = uni.createInnerAudioContext();
 			// 为了防止苹果手机静音无法播放
 			uni.setInnerAudioOption && uni.setInnerAudioOption({
 				obeyMuteSwitch: false
 			})
-
 			this.innerAudioContext.autoplay = true;
-
-			console.log("uni.getRecorderManager()", uni.getRecorderManager())
 			let self = this;
-			console.log('有执行么', this.recorderManager)
 			this.recorderManager.onStop(function(res) {
 				self.audioDuration = res.duration;
 				self.voicePath = res.tempFilePath;
 			});
 		},
-		
 		mounted() {
-		  this.getSafeAreaInsets()
+			this.getSafeAreaInsets()
 		},
-		
 		methods: {
-			// 返回上级
-			// goback() {
-			// 	try {
-			// 		uni.navigateBack({
-			// 			delta: 1, //返回层数，2则上上页
-			// 		})
-			// 	} catch (e) {
-			// 		uni.switchTab({
-			// 			url: '/pages/home/home'
-			// 		})
-			// 	}
-			// },
 			getSafeAreaInsets() {
-			  // 获取屏幕边界到安全区域距离
-			  const systemInfo = uni.getSystemInfoSync()
-			  this.safeAreaInsets = systemInfo.safeAreaInsets
+				// 获取屏幕边界到安全区域距离
+				const systemInfo = uni.getSystemInfoSync()
+				this.safeAreaInsets = systemInfo.safeAreaInsets
 			},
-			
 			// 音频删除
 			audioDelete(obj) {
 				if (obj == true) { // 删除
@@ -185,6 +171,7 @@
 				this.hour = 0;
 				this.minute = 0;
 				this.second = 0;
+				this.voicePath = this.defaultValue;
 			},
 			// 中间图片点击的暂停  点击暂停时同时关闭定时任务
 			endRecordPic() {
@@ -206,16 +193,12 @@
 				this.isZant = true;
 				clearInterval(this.timer);
 				this.audioContent == '';
-				uni.showToast({
-						title: '111'
-					});
 				setTimeout(() => {
 					this.audioAdd();
 				}, 300);
 			},
 			playVoice() {
 				console.log('播放录音');
-				console.log('this.voicePath', this.voicePath);
 				if (this.voicePath) {
 					this.innerAudioContext.src = this.voicePath;
 					this.innerAudioContext.play();
@@ -223,48 +206,55 @@
 			},
 			// 上传录音文件
 			audioAdd() {
-				
 				uni.showToast({
-						title: '222'
-					});
+					title: '222'
+				});
 				console.log("上传录音文件 this.voicePath", this.voicePath)
 				uni.showLoading({
 					title: '保存中...'
 				});
 				if (this.voicePath) {
-					uni.uploadFile({
-						// url: this.baseUrl, //仅为示例，非真实的接口地址
-						// filePath: this.voicePath,
-						// name: 'file',
-						url: 'http://47.113.91.80:8002/file_upload1', //仅为示例，非真实的接口地址
-						filePath: this.voicePath,
-						name: 'img',
-						
-					
-						formData: {  //这里是上传图片时一起上传的数据
-							// user: data.user,
-							patient_name: 1,
-							patient_id: 1,
-						},
-						
-						
-						success: (res) => {
-							uni.hideLoading();
-							JSON.parse(res.data) && uni.showToast({
-								title: '保存成功！',
-								icon: 'success'
-							});
-							this.audioContent = JSON.parse(res.data).result.visiturl;
-							this.startRecording = 0;
-						},
-						fail: (err) => {
-							console.log('audioContent', err, this.audioContent, this.startRecording, this
-								.audioDuration);
-							uni.hideLoading();
-						}
+					// uni.uploadFile({
+					// 	url: 'http://47.113.91.80:8002/file_upload1', //仅为示例，非真实的接口地址
+					// 	filePath: this.voicePath,
+					// 	name: 'img',
+
+					// 	formData: { //这里是上传图片时一起上传的数据
+					// 		// user: data.user,
+					// 		patient_id: 1,
+					// 	},
+
+					// 	success: (res) => {
+					// 		uni.hideLoading();
+					// 		JSON.parse(res.data) && uni.showToast({
+					// 			title: '保存成功！',
+					// 			icon: 'success'
+					// 		});
+					// 		this.audioContent = JSON.parse(res.data).result?.visiturl;
+					// 		this.startRecording = 0;
+					// 	},
+					// 	fail: (err) => {
+					// 		console.log('audioContent', err, this.audioContent, this.startRecording, this
+					// 			.audioDuration);
+					// 		uni.hideLoading();
+					// 	}
+					// });
+					// 改成传给父级保存
+					this.$emit('onChange', this.voicePath)
+					uni.showToast({
+						title: '保存成功！',
+						icon: 'success'
 					});
+					uni.hideLoading();
+					console.log('录音结束');
+					this.recorderManager.stop();
+					clearInterval(this.timer);
+					this.startRecording = 0;
+					this.timecount = '00:00:00';
+					this.hour = 0;
+					this.minute = 0;
+					this.second = 0;
 				} else {
-					console.log("录音失败")
 					uni.showToast({
 						title: '录音失败！',
 						icon: 'error'
@@ -277,37 +267,29 @@
 </script>
 
 <style lang="less" scoped>
-	
-.page {
-	width: 100vw;
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	box-sizing: border-box;
-}	
+	.page {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		box-sizing: border-box;
+	}
 
 	.navbar {
-			  background-image: url(@/static/navigator_bg.png);
-			  background-size: cover;
-			  position: relative;
-			  display: flex;
-			  flex-direction: column;
-			  padding-top: 32px;
-			  padding-bottom: 28rpx;
-			  justify-content: center;
-			  align-items: center;
-			}
-			
-	.navtext{
+		background-image: url(@/static/navigator_bg.png);
+		background-size: cover;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		padding-top: 32px;
+		padding-bottom: 28rpx;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.navtext {
 		color: white;
 	}
-	
-	
-	
-	
-	
-	
-	
 
 	.quenaire {
 		flex: 1;
@@ -330,14 +312,15 @@
 			z-index: 2;
 			padding: 30rpx;
 			width: 90%;
-			height: 60%;
+			height: 80%;
 		}
+
 		.question_order {
 			font-weight: bold;
 			margin-top: 14rpx;
 			margin-bottom: 30rpx;
 		}
-		
+
 		.question_content {
 			font-weight: bold;
 			font-size: 45rpx;
@@ -354,6 +337,15 @@
 		}
 
 		.audioShow {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			padding: 40px 0 10px 0;
+			.play-wrap {
+				padding: 0;
+			}
+
 			.recordBegin {
 				width: 100%;
 				display: flex;
@@ -427,6 +419,4 @@
 			}
 		}
 	}
-
-
 </style>

@@ -1,6 +1,6 @@
 <template>
 	<view class="wrapper">
-		<navbar :quantityTable="dynamicValue" />
+		<navbar :pageTitle="pageTitle" />
 
 		<!-- 个人资料 -->
 		<view>
@@ -71,7 +71,7 @@
 		data() {
 			return {
 				// safeAreaInsets: null,
-				dynamicValue: "我的",
+				pageTitle: "我的",
 				nurse_id: "护士id",
 
 

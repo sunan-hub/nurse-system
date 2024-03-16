@@ -1,6 +1,6 @@
 <template>
 	<view class="pages">
-		<navbar :pageTitle="pageTitle" />
+		<navbar :quantityTable="quantityTable" />
 
 		<view class="btn-area">
 			<button @click="goQuantityTable">新建测评</button>
@@ -58,7 +58,7 @@
 		data() {
 			return {
 				safeAreaInsets: null,
-				pageTitle: "首页",
+				quantityTable: "首页",
 			}
 		},
 		mounted() {
@@ -77,7 +77,7 @@
 			},
 			goQuantityTable() {
 				uni.navigateTo({
-					url: '/pages/test-page-nav/test-page-nav'
+					url: '/pages/quantityTable/quantityTable'
 				});
 			},
 		}

@@ -1,6 +1,6 @@
 <template>
 	<view class="wrapper">
-		<navbar :quantityTable="quantityTable" :showGoback="!currentpage" />
+		<navbar :pageTitle="pageTitle" showGoback="true" />
 
 		<view class="content">
 			<!-- 总指引 -->
@@ -19,102 +19,83 @@
 				<!-- 其它 -->
 				<view class="extra">
 					<uni-list>
-						<uni-list-item v-for="item in itemList" :key="item.key" showArrow clickable :title="item.title"
+						<uni-list-item v-for="item in itemList" :key="item.to" showArrow clickable :title="item.title"
 							:note="item.note" :thumb="item.thumb" :thumb-size="item.thumbSize"
-							@click="openPage(item)" />
+							@click="openPage(item.to)" />
 					</uni-list>
 				</view>
 			</view>
 
 			<!-- 组件页面 -->
-			<evaluateForm v-else-if="currentpage == 1" :defaultValue="evaluateFormValue"
+			<!-- 			<evaluateForm v-else-if="currentpage == 1" :defaultValue="evaluateFormValue"
 				@handleFormDataChange="handleEvaluateFormDataChange" />
-			<recording v-else-if="currentpage == 2" @onChange="handleSaveRecording" :defaultValue="recordingVoicePath"/>
-			<imgUpload v-else-if="currentpage == 3" @onChange="handleSaveImg" />
+			<recording v-else-if="currentpage == 2" @onChange="handleSaveRecording"
+				:defaultValue="recordingVoicePath" />
+			<imgUpload v-else-if="currentpage == 3" @onChange="handleSaveImg" :defaultValue="imgList" />
 			<mmse v-else-if="currentpage == 4 " />
-			<moca v-else-if="currentpage == 5" />
+			<moca v-else-if="currentpage == 5" /> -->
 		</view>
 
 		<!-- 按钮区域 -->
-		<view class="foot" v-if="!!currentpage">
+		<!-- 		<view class="foot" v-if="!!currentpage">
 			<button class="btn" @click="switchPage('down')" v-if="currentpage != 1">上一题</button>
 			<button class="btn" @click="switchPage('cancel')" v-else>取消测试</button>
 			<button class="btn" @click="switchPage('up')" v-if="currentpage != 5">下一题</button>
 			<button class="btn" @click="switchPage('submit')" v-else>提交</button>
-		</view>
+		</view> -->
 	</view>
 </template>
 
 <script>
 	import navbar from '@/components/navbar/navbar.vue';
-	import evaluateForm from './components/table.vue'
-	import recording from './components/recording.vue'
-	import imgUpload from './components/img-upload.vue'
-	import mmse from './components/mmse.vue'
-	import moca from './components/moca.vue'
 
 	export default {
-		components: {
-			evaluateForm,
-			recording,
-			imgUpload,
-			mmse,
-			moca
-		},
 		data() {
 			return {
 				safeAreaInsets: null,
-				quantityTable: "阿尔兹海默病筛查",
+				pageTitle: "阿尔兹海默病筛查",
 				old_id: "老人id",
-				currentpage: 0,
 				// 第一个表单的数据
-				evaluateFormValue: {
-					name: '孙安',
-					sex: 1
-				},
+				evaluateFormValue: {},
 				// 图片list
 				imgList: [],
 				// 录音
 				recordingVoicePath: '',
+				// 页面组件配置
 				itemList: [{
 						title: '阿尔兹海默病早期筛查及评估',
 						note: '',
 						thumb: '/static/quantityTable.png',
 						thumbSize: 'lg',
-						// to: '/pages/quantityTable/table1'
-						key: 1
+						to: '/pages/test-page-nav/evaluate-form/evaluate-form'
 					},
 					{
 						title: 'Mini-Cog量表',
 						note: '',
 						thumb: '/static/quantityTable.png',
 						thumbSize: 'lg',
-						// to: '/pages/recording/recording'
-						key: 2
+						to: '/pages/test-page-nav/mini-cog/mini-cog'
 					},
 					{
 						title: 'HIS量表',
 						note: '',
 						thumb: '/static/quantityTable.png',
 						thumbSize: 'lg',
-						// to: '/pages/index/index'
-						key: 3
+						to: '/pages/his/his'
 					},
 					{
 						title: 'MMSE量表',
 						note: '',
 						thumb: '/static/quantityTable.png',
 						thumbSize: 'lg',
-						// to: '/pages/test/test'
-						key: 4
+						to: '/pages/mmse/mmse'
 					},
 					{
 						title: 'MoCA量表',
 						note: '',
 						thumb: '/static/quantityTable.png',
 						thumbSize: 'lg',
-						// to: '/pages/test/test'
-						key: 5
+						to: '/pages/moca/moca'
 					},
 				]
 			}
@@ -134,15 +115,21 @@
 				const systemInfo = uni.getSystemInfoSync()
 				this.safeAreaInsets = systemInfo.safeAreaInsets
 			},
-			openPage(item) {
-				this.currentpage = item.key;
+			openPage(url) {
+				uni.navigateTo({
+					url: url
+				});
 			},
 			// 切换页面
 			switchPage(type) {
 				if (type == 'up') this.currentpage += 1;
 				else if (type == 'down') this.currentpage -= 1;
 				else if (type == 'submit') {
-					console.log('提交', JSON.stringify(this.evaluateFormValue), this.imgList, this.recordingVoicePath);
+					console.log('提交============================================');
+					console.log('第一个页面表单:', this.evaluateFormValue)
+					console.log('上传的图片地址:', this.imgList)
+					console.log('上传的录音地址:', this.recordingVoicePath)
+					console.log('============================================');
 					// 接口上传 TODO
 				} else this.currentpage = 0;
 			},
@@ -152,12 +139,10 @@
 			},
 			// 上传图片发生变化
 			handleSaveImg(data) {
-				console.log('handleSaveImg', data)
 				this.imgList = data;
 			},
 			// 录音文件发生变化
 			handleSaveRecording(data) {
-				console.log('handleSaveRecording', data)
 				this.recordingVoicePath = data;
 			}
 		}
