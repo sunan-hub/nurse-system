@@ -1,10 +1,10 @@
 <template>
 	<view class="wrapper">
-		<navbar :pageTitle="pageTitle" showGoback="true" />
+		<navbar :pageTitle="pageTitle" :showGoback="true" />
 
 		<view class="content">
 			<!-- 总指引 -->
-			<view class="guide-wrap" v-if="!currentpage">
+			<view class="guide-wrap">
 				<!-- 个人资料 -->
 				<view class="center_top">
 					<view class="center_img">
@@ -25,24 +25,7 @@
 					</uni-list>
 				</view>
 			</view>
-
-			<!-- 组件页面 -->
-			<!-- 			<evaluateForm v-else-if="currentpage == 1" :defaultValue="evaluateFormValue"
-				@handleFormDataChange="handleEvaluateFormDataChange" />
-			<recording v-else-if="currentpage == 2" @onChange="handleSaveRecording"
-				:defaultValue="recordingVoicePath" />
-			<imgUpload v-else-if="currentpage == 3" @onChange="handleSaveImg" :defaultValue="imgList" />
-			<mmse v-else-if="currentpage == 4 " />
-			<moca v-else-if="currentpage == 5" /> -->
 		</view>
-
-		<!-- 按钮区域 -->
-		<!-- 		<view class="foot" v-if="!!currentpage">
-			<button class="btn" @click="switchPage('down')" v-if="currentpage != 1">上一题</button>
-			<button class="btn" @click="switchPage('cancel')" v-else>取消测试</button>
-			<button class="btn" @click="switchPage('up')" v-if="currentpage != 5">下一题</button>
-			<button class="btn" @click="switchPage('submit')" v-else>提交</button>
-		</view> -->
 	</view>
 </template>
 
@@ -81,30 +64,24 @@
 						note: '',
 						thumb: '/static/quantityTable.png',
 						thumbSize: 'lg',
-						to: '/pages/his/his'
+						to: '/pages/test-page-nav/his/his'
 					},
 					{
 						title: 'MMSE量表',
 						note: '',
 						thumb: '/static/quantityTable.png',
 						thumbSize: 'lg',
-						to: '/pages/mmse/mmse'
+						to: '/pages/test-page-nav/mmse/mmse'
 					},
 					{
 						title: 'MoCA量表',
 						note: '',
 						thumb: '/static/quantityTable.png',
 						thumbSize: 'lg',
-						to: '/pages/moca/moca'
+						to: '/pages/test-page-nav/moca/moca'
 					},
 				]
 			}
-		},
-		computed: {
-
-		},
-		created() {
-
 		},
 		mounted() {
 			this.getSafeAreaInsets()
@@ -119,19 +96,6 @@
 				uni.navigateTo({
 					url: url
 				});
-			},
-			// 切换页面
-			switchPage(type) {
-				if (type == 'up') this.currentpage += 1;
-				else if (type == 'down') this.currentpage -= 1;
-				else if (type == 'submit') {
-					console.log('提交============================================');
-					console.log('第一个页面表单:', this.evaluateFormValue)
-					console.log('上传的图片地址:', this.imgList)
-					console.log('上传的录音地址:', this.recordingVoicePath)
-					console.log('============================================');
-					// 接口上传 TODO
-				} else this.currentpage = 0;
 			},
 			// 测评表单数据变化
 			handleEvaluateFormDataChange(data) {
@@ -199,24 +163,6 @@
 						margin-top: 16rpx;
 					}
 				}
-			}
-		}
-
-		// 按钮区域
-		.foot {
-			display: flex;
-			justify-content: space-between;
-			padding: 8px 12px;
-			background-color: #ffffff;
-
-			.btn {
-				width: 46%;
-				height: 40px;
-				background-color: #5cd7aa;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				color: #ffffff;
 			}
 		}
 	}

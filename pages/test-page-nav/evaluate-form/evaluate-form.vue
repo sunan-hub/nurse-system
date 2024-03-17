@@ -1,6 +1,6 @@
 <template>
 	<view class="page-wrap">
-		<navbar :pageTitle="pageTitle" showGoback="true" />
+		<navbar :pageTitle="pageTitle" :showGoback="true" />
 
 		<form class="evaluate-form-wrap" @submit="formSubmit" @reset="formReset">
 			<view class="content-wrap">

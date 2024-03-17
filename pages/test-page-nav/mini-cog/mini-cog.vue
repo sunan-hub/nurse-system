@@ -1,14 +1,17 @@
 <template>
 	<view class="mini-cog-wrap">
-		<navbar :pageTitle="pageTitle + current + '/3'" showGoback="true" />
-		<!-- 第一题录音 -->
-		<recording v-if="current == 1" @onChange="handleSaveRecording" :defaultValue="recordingVoicePath1"
-			:tips="'认真听并重复以下词语：苹果 手表 硬币'" />
-		<!-- 第二题画图 -->
-		<imgUpload v-else-if="current == 2" @onChange="handleSaveImg" :defaultValue="imgList" />
-		<!-- 第三题 -->
-		<recording v-else="current == 3" @onChange="handleSaveRecording" :defaultValue="recordingVoicePath2"
-			:tips="'重复说出以上三个词'" />
+		<navbar :pageTitle="pageTitle + current + '/3'" :showGoback="true" />
+
+		<view class="content">
+			<!-- 第一题录音 -->
+			<recording v-if="current == 1" @onChange="handleSaveRecording" :defaultValue="recordingVoicePath1"
+				:tips="'认真听并重复以下词语：苹果 手表 硬币'" />
+			<!-- 第二题画图 -->
+			<uploadVideo v-else-if="current == 2" @onChange="handleSaveVideo" :defaultValue="videoPath" />
+			<!-- 第三题 -->
+			<recording v-else="current == 3" @onChange="handleSaveRecording" :defaultValue="recordingVoicePath2"
+				:tips="'重复说出以上三个词'" />
+		</view>
 
 		<!-- 按钮区域 -->
 		<view class="foot">
@@ -23,13 +26,13 @@
 <script>
 	import navbar from '@/components/navbar/navbar.vue';
 	import recording from '../components/recording.vue';
-	import imgUpload from '../components/img-upload.vue';
+	import uploadVideo from '../components/upload-video.vue';
 
 	export default {
 		components: {
 			navbar,
 			recording,
-			imgUpload
+			uploadVideo
 		},
 		data() {
 			return {
@@ -37,7 +40,7 @@
 				pageTitle: 'MINI-COG量表 ',
 				recordingVoicePath1: '',
 				recordingVoicePath2: '',
-				imgList: [],
+				videoPath: '',
 				tipsItems: ['苹果', '手表', '硬币'],
 			}
 		},
@@ -59,9 +62,9 @@
 					})
 				});
 			},
-			// 上传图片发生变化
-			handleSaveImg(data) {
-				this.imgList = data;
+			// 上传视频发生变化
+			handleSaveVideo(data) {
+				this.videoPath = data;
 			},
 			// 录音文件发生变化
 			handleSaveRecording(data) {
@@ -75,6 +78,18 @@
 
 <style lang="scss">
 	.mini-cog-wrap {
+		width: 100vw;
+		height: 100vh;
+		display: flex;
+		overflow: hidden;
+		flex-direction: column;
+		background-image: linear-gradient(#76EEC6, #7FFFD4);
+
+		.content {
+			width: 100%;
+			flex: 1;
+			overflow: auto;
+		}
 
 		// 按钮区域
 		.foot {

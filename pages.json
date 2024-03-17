@@ -1,21 +1,21 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationStyle": "custom", // 隐藏默认导航
+				"navigationBarBackgroundColor": "#76EEC6",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
 			"path": "pages/home/home",
 			"style": {
 				"navigationStyle": "custom", // 隐藏默认导航
 				"navigationBarBackgroundColor": "#76EEC6",
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "首页"
-			}
-		},
-		{
-			"path": "pages/uniCard/uniCard",
-			"style": {
-				// "navigationStyle": "custom", // 隐藏默认导航
-				"navigationBarBackgroundColor": "#76EEC6",
-				"navigationBarTextStyle": "white",
-				"navigationBarTitleText": "uniCard"
 			}
 		},
 		{
@@ -43,15 +43,6 @@
 				"navigationBarBackgroundColor": "#76EEC6",
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "我的"
-			}
-		},
-		{
-			"path": "pages/login/login",
-			"style": {
-				"navigationStyle": "custom", // 隐藏默认导航
-				"navigationBarBackgroundColor": "#76EEC6",
-				"navigationBarTextStyle": "white",
-				"navigationBarTitleText": "登录"
 			}
 		},
 		{
@@ -91,27 +82,30 @@
 			}
 		},
 		{
-			"path" : "pages/test-page-nav/moca/moca",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/test-page-nav/moca/moca",
+			"style": {
+				"navigationStyle": "custom", // 隐藏默认导航
+				"navigationBarBackgroundColor": "#76EEC6",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "蒙特利尔认知评估量表(MoCA)"
 			}
 		},
 		{
-			"path" : "pages/test-page-nav/his/his",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/test-page-nav/his/his",
+			"style": {
+				"navigationStyle": "custom", // 隐藏默认导航
+				"navigationBarBackgroundColor": "#76EEC6",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "缺血指数量表(HIS)"
 			}
 		},
 		{
-			"path" : "pages/test-page-nav/mmse/mmse",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/test-page-nav/mmse/mmse",
+			"style": {
+				"navigationStyle": "custom", // 隐藏默认导航
+				"navigationBarBackgroundColor": "#76EEC6",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "简易智能精神状态量表(MMSE)"
 			}
 		}
 	],

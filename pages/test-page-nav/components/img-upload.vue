@@ -1,11 +1,8 @@
 <template>
 	<view class='pages'>
 		<!-- 题目 -->
-		<view class="question">
-			<view class="question_order">{{ quantityTableType }}量表 2/3</view>
-			<view class="question_content">
-				<text>{{ question_content }}</text>
-			</view>
+		<view class="question_content">
+			<text>{{ question_content }}</text>
 		</view>
 
 		<!-- 图片 -->
@@ -134,31 +131,21 @@
 		flex-direction: column;
 		overflow-y: auto;
 
-		.question {
+		.question_content {
 			width: 100%;
-
-			.question_order {
-				font-weight: bold;
-				margin-top: 14rpx;
-				margin-bottom: 30rpx;
-			}
-
-			.question_content {
-				font-weight: bold;
-				font-size: 45rpx;
-				text-align: center;
-				justify-content: center;
-				align-items: center;
-				display: flex;
-				box-sizing: border-box;
-				padding: 8rpx;
-				width: 100%;
-				height: 300rpx;
-				background-color: #e7eaec;
-				border-radius: 8px;
-			}
+			font-weight: bold;
+			font-size: 45rpx;
+			text-align: center;
+			justify-content: center;
+			align-items: center;
+			display: flex;
+			box-sizing: border-box;
+			padding: 8rpx;
+			width: 100%;
+			height: 300rpx;
+			background-color: #e7eaec;
+			border-radius: 8px;
 		}
-
 
 		// 图片区域
 		.images_box {
@@ -172,8 +159,7 @@
 			.img-box {
 				width: calc(100% - 68px);
 				height: calc(100% - 68px);
-				margin-top: 30rpx;
-				margin-bottom: 30rpx;
+				margin: 24px 0;
 				// background-color: #c7d6d2;
 				position: relative;
 				border-radius: 24rpx;

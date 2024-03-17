@@ -99,7 +99,7 @@
 	.form-item {
 		font-size: 13px;
 		font-weight: 400;
-		margin-bottom: 16px;
+		margin-bottom: 24px;
 
 		.label {
 			font-size: 14px;

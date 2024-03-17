@@ -1,5 +1,6 @@
 <template>
-	<view>
+	<view class="page-wrap">
+		<navbar pageTitle="登录" />
 		<view class="all">
 			<view class="title">
 				<image :src="title_login" alt="图片损坏" />
@@ -27,6 +28,8 @@
 	</view>
 </template>
 <script>
+	import navbar from '@/components/navbar/navbar.vue'
+	
 	export default {
 		data() {
 			return {
@@ -46,6 +49,9 @@
 			},
 			//用户密码登录
 			formSubmit(e) {
+				uni.switchTab({
+					url: '/pages/home/home'
+				})
 				//获取用户输入信息
 				this.zhanghao = e.detail.value.zhanghao; //用户输入账号信息
 				this.mima = e.detail.value.mima //用户输入密码信息
@@ -115,14 +121,14 @@
 		}
 	}
 </script>
- 
+
 <style>
-	page {
+	.page-wrap {
 		background-color: rgb(242, 242, 242);
 		height: 100%;
 		width: 100%;
 	}
- 
+
 	image {
 		height: 80px;
 		width: 200px;
@@ -133,9 +139,9 @@
 		margin-left: -100px;
 		margin-top: 30%;
 		margin-bottom: 10%;
- 
+
 	}
- 
+
 	.eye_position {
 		margin: 0px;
 		padding: 0px;
@@ -143,14 +149,14 @@
 		height: 45rpx;
 		padding-right: 2%;
 	}
- 
+
 	.eye_position image {
 		margin: 0px;
 		padding: 0px;
 		width: 45rpx;
 		height: 45rpx;
 	}
- 
+
 	.input-group {
 		display: flex;
 		align-items: center;
@@ -163,11 +169,11 @@
 		width: 88%;
 		height: 60rpx;
 	}
- 
+
 	.input-group.active {
 		border: 2px solid #7acfa6;
 	}
- 
+
 	.input-label {
 		color: #888;
 		font-size: 13pt;
@@ -176,7 +182,7 @@
 		padding: 0 25rpx;
 		border-right: 1px solid #d8d8d8;
 	}
- 
+
 	.input-group input,
 	.input-group picker {
 		flex: 1;
@@ -186,12 +192,12 @@
 		line-height: 52rpx;
 		padding: 0 25rpx;
 	}
- 
+
 	.input-placeholder,
 	.input-group picker.placeholder {
 		color: #ccc;
 	}
- 
+
 	.login-help {
 		display: flex;
 		margin-left: 71%;
@@ -201,13 +207,13 @@
 		font-size: 10pt;
 		color: #bbb;
 	}
- 
+
 	.login-help-img {
 		width: 11pt;
 		height: 11pt;
 		margin: 0 5rpx;
 	}
- 
+
 	.confirm-btn {
 		font-size: 13pt;
 		line-height: 85rpx;
@@ -218,15 +224,16 @@
 		border-radius: 5px;
 		margin: 50rpx 3%;
 	}
- 
+
 	.confirm-btn:active {
 		opacity: .8;
 	}
-	
-	.login{
-		background-color:#76EEC6;
-		width:90%;color:white;
-		margin-top:10%;
-		font-size:20px;
+
+	.login {
+		background-color: #76EEC6;
+		width: 90%;
+		color: white;
+		margin-top: 10%;
+		font-size: 20px;
 	}
 </style>
