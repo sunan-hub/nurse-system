@@ -8,6 +8,9 @@
 	import navbar from '@/components/nav-bar.vue';
 	
 	export default {
+		components: {
+			navbar
+		},
 		data() {
 			return {
 				

@@ -148,6 +148,9 @@
 			// 取消录音
 			endRecord() {
 				console.log('录音结束');
+				this.recorderManager.onStop(function(res) {
+					that.$emit('onChange', this.value)
+				});
 				this.recorderManager.stop();
 				clearInterval(this.timer);
 				this.startRecording = 0;
@@ -260,6 +263,8 @@
 		height: 100%;
 		padding: 16rpx;
 		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
 	}
 
 	.audioShow {

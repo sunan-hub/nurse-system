@@ -2,7 +2,8 @@
 	<view class='wrap'>
 		<!-- 视频 -->
 		<view class='video-box' v-if="!!value">
-			<video class='video' :src='value' :poster='value' />
+			<video v-if="type == 'video'" class='video' :src='value' :poster='value' />
+			<image v-else class='img' :src='value' mode='aspectFit' />
 		</view>
 
 		<!-- 添加按钮 -->
@@ -20,6 +21,10 @@
 				type: String,
 				required: false
 			},
+			type: {
+				type: "video" | 'img',
+				required: false
+			}
 		},
 		data() {
 			return {
@@ -41,14 +46,23 @@
 			//*选择视频*//
 			addPic: async function() {
 				let that = this
-				// 选择视频
-				uni.chooseVideo({
+				if (that.type == 'video') {
+					// 选择视频
+					uni.chooseVideo({
+						sourceType: ['album', 'camera'], // album 从相册选图，camera 使用相机，默认二者都有
+						success(res) {
+							that.$emit('onChange', res.tempFilePath)
+						},
+						fail(err) {
+							console.log('err', err)
+						}
+					})
+				} else uni.chooseImage({
+					count: 1, // 最多可以选择的图片张数，默认9
+					sizeType: ['compressed'], // original 原图，compressed 压缩图，默认二者都有
 					sourceType: ['album', 'camera'], // album 从相册选图，camera 使用相机，默认二者都有
-					success(res) {
-						that.$emit('onChange', res.tempFilePath)
-					},
-					fail(err) {
-						console.log('err', err)
+					success: function(res) {
+						that.$emit('onChange', res.tempFilePaths?.[0])
 					}
 				})
 			},
@@ -72,7 +86,7 @@
 			display: flex;
 			flex-direction: column;
 
-			.video {
+			.video, .img {
 				width: 100%;
 				height: 100%;
 			}

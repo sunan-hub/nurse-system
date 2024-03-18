@@ -11,7 +11,7 @@
 
 			<!-- 删除按钮 -->
 			<view v-if="videoPath" class='delete' @click='handleDelete'>
-				删除重新录制
+				删除重新拍摄
 			</view>
 		</view>
 	</view>
