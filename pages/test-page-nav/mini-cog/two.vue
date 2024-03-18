@@ -7,7 +7,7 @@
 			</view>
 
 			<!-- 视频 -->
-			<upload-video :value="videoPath" @onChange="onChange" />
+			<upload-video :value="value" @onChange="onChange" />
 
 			<!-- 删除按钮 -->
 			<view v-if="videoPath" class='delete' @click='handleDelete'>
@@ -25,14 +25,13 @@
 			uploadVideo
 		},
 		props: {
-			defaultValue: {
+			value: {
 				type: String,
 				required: false
 			},
 		},
 		data() {
 			return {
-				videoPath: this.defaultValue || '',
 				quantityTableType: "Mini-Cog",
 				tips: "画出钟表表盘：\n徒手画出11:10或8:20",
 				safeAreaInsets: null,
@@ -71,7 +70,7 @@
 		.content {
 			box-sizing: border-box;
 			width: 100%;
-			height: 80%;
+			height: 90%;
 			background-color: #FFFFFF;
 			border-radius: 16rpx;
 			padding: 30rpx;

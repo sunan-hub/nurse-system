@@ -6,8 +6,7 @@
 			<view class="content-wrap">
 				<view class="title">基本信息</view>
 				<template v-for="item in items">
-					<form-item-render :key="item.key" :item="item" :formData="JSON.stringify(formData)"
-						@onChange="itemOnChange" />
+					<form-item-render :key="item.key" :item="item" v-model="formData" @onChange="itemOnChange" />
 				</template>
 			</view>
 
@@ -23,6 +22,7 @@
 <script>
 	import navbar from '@/components/nav-bar.vue';
 	import formItemRender from '@/components/form-item-render.vue'
+	import store from '@/store/index.js'
 
 	export default {
 		name: 'evaluateForm',
@@ -148,15 +148,17 @@
 				const systemInfo = uni.getSystemInfoSync()
 				this.safeAreaInsets = systemInfo.safeAreaInsets
 			},
-			formSubmit: function(e) {
-				console.log('form发生了submit事件，携带数据为：' + JSON.stringify(e.detail.value))
+			formSubmit(e) {
+				// 注入仓库
+				store.commit('setEvaluateFormData', {
+					formData: this.formData
+				})
 				uni.showModal({
 					content: '表单数据内容：' + JSON.stringify(this.formData),
 					showCancel: false
 				});
 			},
-			formReset: function(e) {
-				console.log('清空数据')
+			formReset(e) {
 				Object.keys(this.formData).forEach(key => {
 					this.$set(this.formData, key, undefined)
 				})

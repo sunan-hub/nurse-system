@@ -26,11 +26,17 @@
 				</view>
 			</view>
 		</view>
+
+		<!-- 按钮区域 -->
+		<view class="foot">
+			<button @click="handleSubmit">提交</button>
+		</view>
 	</view>
 </template>
 
 <script>
 	import navbar from '@/components/nav-bar.vue';
+	import store from '@/store/index.js'
 
 	export default {
 		components: {
@@ -111,6 +117,10 @@
 			// 录音文件发生变化
 			handleSaveRecording(data) {
 				this.recordingVoicePath = data;
+			},
+			// 总页面的提交
+			handleSubmit() {
+				console.log('第一个表单数据', JSON.stringify(store.state.evaluateFormData))
 			}
 		}
 	};
@@ -166,6 +176,26 @@
 						margin-top: 16rpx;
 					}
 				}
+			}
+		}
+
+		// 按钮区域
+		.foot {
+			border-top: 1px solid #dddddd;
+			padding: 8px 12px;
+			display: flex;
+			justify-content: space-between;
+			padding: 8px 12px;
+			background-color: #ffffff;
+
+			button {
+				width: 100%;
+				height: 40px;
+				background-color: #5cd7aa;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: #ffffff;
 			}
 		}
 	}

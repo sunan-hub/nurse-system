@@ -1,16 +1,14 @@
 <template>
 	<view class="mini-cog-wrap">
-		<navbar :pageTitle="pageTitle + current + '/3'" :showGoback="true" />
+		<navbar :pageTitle="'MINI-COG量表 ' + current + '/3'" :showGoback="true" />
 
 		<view class="content">
 			<!-- 第一题录音 -->
-			<recordingOne v-if="current == 1" @onChange="handleSaveRecording" :value="recordingVoicePath1"
-				:tips="'认真听并重复以下词语：苹果 手表 硬币'" />
+			<recordingOne v-if="current == 1" @onChange="handleSaveRecording" :value="recordingVoicePath1" />
 			<!-- 第二题画图 -->
-			<uploadVideo v-else-if="current == 2" @onChange="handleSaveVideo" :defaultValue="videoPath" />
+			<uploadVideo v-else-if="current == 2" @onChange="handleSaveVideo" :value="videoPath" />
 			<!-- 第三题 -->
-			<recording v-else="current == 3" @onChange="handleSaveRecording" :defaultValue="recordingVoicePath2"
-				:tips="'重复说出以上三个词'" />
+			<recordingThree v-else="current == 3" @onChange="handleSaveRecording" :value="recordingVoicePath2" />
 		</view>
 
 		<!-- 按钮区域 -->
@@ -26,24 +24,24 @@
 <script>
 	import navbar from '@/components/nav-bar.vue';
 	import recording from '../components/recording.vue';
-	import uploadVideo from './two.vue';
 	import recordingOne from './one.vue';
+	import uploadVideo from './two.vue';
+	import recordingThree from './three.vue';
 
 	export default {
 		components: {
 			navbar,
 			recording,
 			uploadVideo,
-			recordingOne
+			recordingOne,
+			recordingThree
 		},
 		data() {
 			return {
 				current: 1,
-				pageTitle: 'MINI-COG量表 ',
 				recordingVoicePath1: '',
 				recordingVoicePath2: '',
 				videoPath: '',
-				tipsItems: ['苹果', '手表', '硬币'],
 			}
 		},
 		methods: {
@@ -70,7 +68,7 @@
 			},
 			// 录音文件发生变化
 			handleSaveRecording(data) {
-				if (this.current == 2)
+				if (this.current == 3)
 					this.recordingVoicePath2 = data;
 				else this.recordingVoicePath1 = data;
 			}

@@ -7,7 +7,7 @@
 				<view class="radio-items-wrap">
 					<template v-for="option in item.options">
 						<label :key="option.value">
-							<radio :value="option.value" :checked="value == option.value" />
+							<radio :value="option.value" :checked="getChecked(option.value)" />
 							<text class="text">{{ option.label }}</text>
 						</label>
 					</template>
@@ -29,9 +29,10 @@
 					v-model="detailValue" />
 			</checkbox-group>
 			<!-- 数字输入框 -->
-			<input v-else-if="item.type == 'number'" type="number" :placeholder="'请输入' + item.label" v-model="value" />
+			<input v-else-if="item.type == 'number'" type="number" :placeholder="'请输入' + item.label"
+				v-model="value[item.key]" />
 			<!-- 输入框 -->
-			<input v-else-if="item.type == 'input'" :placeholder="'请输入' + item.label" v-model="value" />
+			<input v-else-if="item.type == 'input'" :placeholder="'请输入' + item.label" v-model="value[item.key]" />
 		</view>
 	</view>
 </template>
@@ -44,15 +45,14 @@
 				type: Object,
 				require: true,
 			},
-			formData: {
-				type: String,
+			value: { // 这里的value是整个表单的formData
+				type: Object,
 				require: false,
 			}
 		},
 		data() {
 			return {
-				value: JSON.parse(this.formData)[this.item.key],
-				detailValue: this.item.detail?.key ? JSON.parse(this.formData)[this.item.detail.key] : undefined
+				detailValue: this.item.detail?.key ? this.value[this.item.detail.key] : undefined
 			}
 		},
 		watch: {
@@ -61,7 +61,7 @@
 				handler(newValue, oldValue) {
 					this.$emit('onChange', {
 						key: this.item.key,
-						value: newValue
+						value: newValue[this.item.key]
 					})
 				}
 			},
@@ -78,17 +78,19 @@
 		methods: {
 			// 单选框和多选框不能双向绑定只能这个
 			onChange(e) {
-				this.value = e.detail.value
+				// this.value = e.detail.value
+				this.$set(this.value, this.item.key, e.detail.value)
 			},
 			// Checked选项是否选中
 			getChecked(value) {
-				return this.value?.includes(value)
+				return this.item.type == 'checkbox' ? this.value[this.item.key]?.includes(value) : this.value[this.item
+					.key] == value
 			},
 			// 是否显示附加详情
 			getShowDetailInput() {
 				if (this.item.type == 'checkbox')
-					return this.item.detail && this.value?.includes(this.item.detail.showValue)
-				else return this.item.detail && this.value == this.item.detail.showValue
+					return this.item.detail && this.value[this.item.key]?.includes(this.item.detail.showValue)
+				else return this.item.detail && this.value[this.item.key] == this.item.detail.showValue
 			}
 		}
 
