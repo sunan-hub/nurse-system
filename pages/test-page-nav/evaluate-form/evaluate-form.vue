@@ -2,20 +2,22 @@
 	<view class="page-wrap">
 		<navbar :pageTitle="pageTitle" :showGoback="true" />
 
-		<form class="evaluate-form-wrap" @submit="formSubmit" @reset="formReset">
+		<view class="evaluate-form-wrap">
 			<view class="content-wrap">
 				<view class="title">基本信息</view>
-				<template v-for="item in items">
-					<form-item-render :key="item.key" :item="item" v-model="formData" @onChange="itemOnChange" />
-				</template>
+				<view class="item">
+					<template v-for="item in items">
+						<form-item-render :key="item.key" :item="item" v-model="formData" @onChange="itemOnChange" />
+					</template>
+				</view>
 			</view>
 
 			<!-- 按钮区域 -->
 			<view class="foot">
-				<button class="default" form-type="reset">重置</button>
-				<button form-type="submit">提交</button>
+				<button class="default" form-type="reset" @click="formReset">重置</button>
+				<button form-type="submit" @click="formSubmit">提交</button>
 			</view>
-		</form>
+		</view>
 	</view>
 </template>
 
@@ -177,12 +179,13 @@
 			flex: 1;
 			display: flex;
 			flex-direction: column;
-			overflow: auto;
+			overflow: hidden;
 
 			// 内容区域
 			.content-wrap {
 				flex: 1;
 				padding: 8px 12px;
+				overflow: auto;
 
 				// 大标题
 				.title {
