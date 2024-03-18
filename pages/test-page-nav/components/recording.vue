@@ -35,8 +35,8 @@
 
 <script>
 	import luchAudio from '@/components/luch-audio/luch-audio.vue';
-	import playAudio from '@/components/play-audio/play-audio.vue';
-	import navbar from '@/components/navbar/navbar.vue';
+	import playAudio from '@/components/play-audio.vue';
+	import navbar from '@/components/nav-bar.vue';
 
 	export default {
 		components: {

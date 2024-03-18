@@ -47,7 +47,7 @@
 </template>
 
 <script>
-	import navbar from '@/components/navbar/navbar.vue';
+	import navbar from '@/components/nav-bar.vue';
 	import evaluateForm from './components/evaluate-form.vue'
 	import recording from './components/recording.vue'
 	import imgUpload from './components/img-upload.vue'

@@ -1,7 +1,7 @@
 <template>
 	<view class="nav-wrap" :style="{ paddingTop: safeAreaInsets ? safeAreaInsets.top + 5 +'px' : '0' }">
 		<view class="goback" @click="goback">
-			<image v-if="showGoback" class="goback-icon" src="../../static/goback.png" />
+			<image v-if="showGoback" class="goback-icon" src="../static/goback.png" />
 		</view>
 		<view class="title">
 			<text class="navtext">{{pageTitle || '测量系统'}}</text>

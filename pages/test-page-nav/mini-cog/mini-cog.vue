@@ -4,7 +4,7 @@
 
 		<view class="content">
 			<!-- 第一题录音 -->
-			<recording v-if="current == 1" @onChange="handleSaveRecording" :defaultValue="recordingVoicePath1"
+			<recordingOne v-if="current == 1" @onChange="handleSaveRecording" :value="recordingVoicePath1"
 				:tips="'认真听并重复以下词语：苹果 手表 硬币'" />
 			<!-- 第二题画图 -->
 			<uploadVideo v-else-if="current == 2" @onChange="handleSaveVideo" :defaultValue="videoPath" />
@@ -24,15 +24,17 @@
 </template>
 
 <script>
-	import navbar from '@/components/navbar/navbar.vue';
+	import navbar from '@/components/nav-bar.vue';
 	import recording from '../components/recording.vue';
-	import uploadVideo from '../components/upload-video.vue';
+	import uploadVideo from './two.vue';
+	import recordingOne from './one.vue';
 
 	export default {
 		components: {
 			navbar,
 			recording,
-			uploadVideo
+			uploadVideo,
+			recordingOne
 		},
 		data() {
 			return {
@@ -52,7 +54,7 @@
 				else if (type == 'submit') {
 					console.log('提交============================================');
 					console.log('第一题:', this.recordingVoicePath1)
-					console.log('第二题:', this.imgList)
+					console.log('第二题:', this.videoPath)
 					console.log('第三题', this.recordingVoicePath2)
 					console.log('============================================');
 					// 接口上传 TODO

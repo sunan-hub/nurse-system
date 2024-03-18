@@ -28,9 +28,12 @@
 	</view>
 </template>
 <script>
-	import navbar from '@/components/navbar/navbar.vue'
-	
+	import navbar from '@/components/nav-bar.vue'
+
 	export default {
+		components: {
+			navbar
+		},
 		data() {
 			return {
 				isShowPassword: true,

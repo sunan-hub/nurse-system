@@ -11,8 +11,8 @@
 </template>
 
 <script>
-	import navbar from '@/components/navbar/navbar.vue';
-	import formItemRender from '@/components/form-item-render/form-item-render.vue'
+	import navbar from '@/components/nav-bar.vue';
+	import formItemRender from '@/components/form-item-render.vue'
 
 	export default {
 		name: 'evaluateForm',
