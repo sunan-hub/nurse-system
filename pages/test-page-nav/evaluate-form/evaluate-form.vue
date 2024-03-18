@@ -122,15 +122,8 @@
 						}
 					},
 				],
-				formData: {
-					name: "子安",
-					sex: 0,
-					age: 21,
-					height: 155,
-					weight: 54,
-					city: "city",
-					career: "checkbox2",
-					drug: 0,
+				formData: { // 结构赋值，不然会直接更改仓库
+					...(store.state.evaluateFormData || {})
 				},
 			}
 		},
@@ -151,7 +144,7 @@
 			formSubmit(e) {
 				// 注入仓库
 				store.commit('setEvaluateFormData', {
-					formData: this.formData
+					...this.formData
 				})
 				uni.showModal({
 					content: '表单数据内容：' + JSON.stringify(this.formData),

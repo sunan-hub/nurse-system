@@ -10,7 +10,7 @@
 			<upload-video :value="value" @onChange="onChange" />
 
 			<!-- 删除按钮 -->
-			<view v-if="videoPath" class='delete' @click='handleDelete'>
+			<view v-if="!!value" class='delete' @click='handleDelete'>
 				删除重新拍摄
 			</view>
 		</view>

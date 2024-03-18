@@ -27,6 +27,7 @@
 	import recordingOne from './one.vue';
 	import uploadVideo from './two.vue';
 	import recordingThree from './three.vue';
+	import store from '@/store/index.js'
 
 	export default {
 		components: {
@@ -44,18 +45,21 @@
 				videoPath: '',
 			}
 		},
+		mounted() {
+			this.getData();
+		},
 		methods: {
 			// 切换页面
 			switchPage(type) {
 				if (type == 'up') this.current += 1;
 				else if (type == 'down') this.current -= 1;
 				else if (type == 'submit') {
-					console.log('提交============================================');
-					console.log('第一题:', this.recordingVoicePath1)
-					console.log('第二题:', this.videoPath)
-					console.log('第三题', this.recordingVoicePath2)
-					console.log('============================================');
-					// 接口上传 TODO
+					// 注入仓库
+					store.commit('setMiniCogData', {
+						recordingVoicePath1: this.recordingVoicePath1,
+						videoPath: this.videoPath,
+						recordingVoicePath2: this.recordingVoicePath2
+					})
 				} else uni.navigateBack().catch(() => {
 					uni.switchTab({
 						url: '/pages/home/home'
@@ -71,6 +75,12 @@
 				if (this.current == 3)
 					this.recordingVoicePath2 = data;
 				else this.recordingVoicePath1 = data;
+			},
+			// 赋值初始值
+			getData() {
+				this.recordingVoicePath1 = store.state.miniCogData?.recordingVoicePath1 || '';
+				this.recordingVoicePath2 = store.state.miniCogData?.recordingVoicePath2 || '';
+				this.videoPath = store.state.miniCogData?.videoPath || '';
 			}
 		}
 	}

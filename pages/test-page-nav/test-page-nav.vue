@@ -95,6 +95,10 @@
 		mounted() {
 			this.getSafeAreaInsets()
 		},
+		destroyed() {
+			// 清除数据
+			store.commit('clearTestPageData');
+		},
 		methods: {
 			getSafeAreaInsets() {
 				// 获取屏幕边界到安全区域距离
@@ -121,6 +125,7 @@
 			// 总页面的提交
 			handleSubmit() {
 				console.log('第一个表单数据', JSON.stringify(store.state.evaluateFormData))
+				console.log('第二个表单数据', JSON.stringify(store.state.miniCogData))
 			}
 		}
 	};

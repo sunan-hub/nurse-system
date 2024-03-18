@@ -8,11 +8,19 @@ Vue.use(Vuex); //vue的插件机制
 const store = new Vuex.Store({
 	state: { //存放状态
 		evaluateFormData: {},
+		miniCogData: {}
 	},
 	mutations: {
-		setEvaluateFormData(state, formData) {
-			// 变更状态
-			state.evaluateFormData = formData;
+		setEvaluateFormData(state, newData) {
+			state.evaluateFormData = newData;
+		},
+		setMiniCogData(state, newData) {
+			state.miniCogData = newData;
+		},
+		// 清除测试数据
+		clearTestPageData(state) {
+			state.evaluateFormData = {};
+			state.miniCogData = {};
 		}
 	}
 })
