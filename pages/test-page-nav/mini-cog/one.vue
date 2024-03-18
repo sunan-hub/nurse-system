@@ -1,11 +1,11 @@
 <template>
-	<view class="page-wrap">
+	<view class="page-wrap" :class="isDetail && 'detail-page'">
 		<view class="content">
 			<view class="tips">
 				<text>{{ tips }}</text>
 			</view>
 
-			<recording style="width: 100%; flex: 1" @onChange="onChange" :value="value" />
+			<recording style="width: 100%; flex: 1" @onChange="onChange" :value="value" :disable="isDetail" />
 		</view>
 	</view>
 </template>
@@ -21,6 +21,7 @@
 		},
 		props: {
 			value: '',
+			isDetail: false
 		},
 		data() {
 			return {
@@ -36,7 +37,7 @@
 				const systemInfo = uni.getSystemInfoSync()
 				this.safeAreaInsets = systemInfo.safeAreaInsets
 			},
-			onChange (data) {
+			onChange(data) {
 				this.$emit('onChange', data)
 			}
 		},
@@ -50,6 +51,10 @@
 		height: 100%;
 		padding: 16rpx;
 		overflow-y: auto;
+
+		&.detail-page {
+			min-height: 50vh;
+		}
 	}
 
 	.content {

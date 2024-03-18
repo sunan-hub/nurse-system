@@ -55,6 +55,15 @@
 			}
 		},
 		{
+			"path": "pages/result/detail",
+			"style": {
+				"navigationStyle": "custom", // 隐藏默认导航
+				"navigationBarBackgroundColor": "#76EEC6",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "结果详情"
+			}
+		},
+		{
 			"path": "pages/test-page-nav/test-page-nav",
 			"style": {
 				"navigationStyle": "custom", // 隐藏默认导航
@@ -106,14 +115,6 @@
 				"navigationBarBackgroundColor": "#76EEC6",
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "简易智能精神状态量表(MMSE)"
-			}
-		},
-		{
-			"path" : "pages/test-page-nav/mini-cog/two",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
 			}
 		}
 	],

@@ -1,5 +1,5 @@
 <template>
-	<view class='page-wrap'>
+	<view class='page-wrap' :class="isDetail && 'detail-page'">
 		<view class="content">
 			<!-- 题目 -->
 			<view class="tips">
@@ -7,10 +7,10 @@
 			</view>
 
 			<!-- 视频 -->
-			<upload-video :value="value" @onChange="onChange" />
+			<upload-video :value="value" @onChange="onChange" :disable="isDetail" />
 
 			<!-- 删除按钮 -->
-			<view v-if="!!value" class='delete' @click='handleDelete'>
+			<view v-if="!!value && !isDetail" class='delete' @click='handleDelete'>
 				删除重新拍摄
 			</view>
 		</view>
@@ -29,6 +29,10 @@
 				type: String,
 				required: false
 			},
+			isDetail: {
+				type: Boolean,
+				require: false
+			}
 		},
 		data() {
 			return {
@@ -66,6 +70,10 @@
 		height: 100%;
 		padding: 16rpx;
 		overflow-y: auto;
+
+		&.detail-page {
+			min-height: 50vh;
+		}
 
 		.content {
 			box-sizing: border-box;

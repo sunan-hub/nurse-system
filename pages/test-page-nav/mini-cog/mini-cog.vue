@@ -1,18 +1,21 @@
 <template>
-	<view class="mini-cog-wrap">
-		<navbar :pageTitle="'MINI-COG量表 ' + current + '/3'" :showGoback="true" />
+	<view class="mini-cog-wrap" :class="isDetail && 'detail-page'">
+		<navbar v-if="!isDetail" :pageTitle="'MINI-COG量表 ' + current + '/3'" :showGoback="true" />
 
 		<view class="content">
 			<!-- 第一题录音 -->
-			<recordingOne v-if="current == 1" @onChange="handleSaveRecording" :value="recordingVoicePath1" />
+			<recordingOne v-if="current == 1 || isDetail" @onChange="handleSaveRecording" :value="recordingVoicePath1"
+				:isDetail="isDetail" />
 			<!-- 第二题画图 -->
-			<uploadVideo v-else-if="current == 2" @onChange="handleSaveVideo" :value="videoPath" />
+			<uploadVideo v-if="current == 2 || isDetail" @onChange="handleSaveVideo" :value="videoPath"
+				:isDetail="isDetail" />
 			<!-- 第三题 -->
-			<recordingThree v-else="current == 3" @onChange="handleSaveRecording" :value="recordingVoicePath2" />
+			<recordingThree v-if="current == 3 || isDetail" @onChange="handleSaveRecording" :value="recordingVoicePath2"
+				:isDetail="isDetail" />
 		</view>
 
 		<!-- 按钮区域 -->
-		<view class="foot">
+		<view class="foot" v-if="!isDetail">
 			<button class="btn" @click="switchPage('down')" v-if="current != 1">上一题</button>
 			<button class="btn" @click="switchPage('cancel')" v-else>取消测试</button>
 			<button class="btn" @click="switchPage('up')" v-if="current != 3">下一题</button>
@@ -36,6 +39,11 @@
 			uploadVideo,
 			recordingOne,
 			recordingThree
+		},
+		props: {
+			isDetail: {
+				type: Boolean,
+			}
 		},
 		data() {
 			return {
@@ -94,6 +102,11 @@
 		overflow: hidden;
 		flex-direction: column;
 		background-image: linear-gradient(#76EEC6, #7FFFD4);
+
+		&.detail-page {
+			height: 100%;
+			width: 100%;
+		}
 
 		.content {
 			width: 100%;

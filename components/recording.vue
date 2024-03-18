@@ -4,7 +4,7 @@
 			<view class="play-wrap">
 				<play-audio v-if="value && startRecording == 0" :src="value" />
 			</view>
-			<view class="recordBegin" @tap="startRecord" v-if="startRecording == 0">
+			<view class="recordBegin" @tap="startRecord" v-if="startRecording == 0 && !disable">
 				<view class="text">
 					录音
 				</view>
@@ -40,7 +40,8 @@
 		},
 		props: {
 			value: '',
-			tips: ''
+			tips: '',
+			disable: false
 		},
 		data() {
 			return {

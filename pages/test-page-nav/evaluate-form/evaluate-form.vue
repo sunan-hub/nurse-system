@@ -1,6 +1,6 @@
 <template>
-	<view class="page-wrap">
-		<navbar :pageTitle="pageTitle" :showGoback="true" />
+	<view class="page-wrap" :class="isDetail && 'detail-page'">
+		<navbar v-if="!isDetail" :pageTitle="pageTitle" :showGoback="true" />
 
 		<view class="evaluate-form-wrap">
 			<view class="content-wrap">
@@ -13,7 +13,7 @@
 			</view>
 
 			<!-- 按钮区域 -->
-			<view class="foot">
+			<view class="foot" v-if="!isDetail">
 				<button class="default" form-type="reset" @click="formReset">重置</button>
 				<button form-type="submit" @click="formSubmit">提交</button>
 			</view>
@@ -31,6 +31,11 @@
 		components: {
 			navbar,
 			formItemRender,
+		},
+		props: {
+			isDetail: {
+				type: Boolean,
+			}
 		},
 		data() {
 			return {
@@ -173,6 +178,11 @@
 		display: flex;
 		flex-direction: column;
 		overflow: hidden;
+
+		&.detail-page {
+			height: 100%;
+			width: 100%;
+		}
 
 		.evaluate-form-wrap {
 			box-sizing: border-box;

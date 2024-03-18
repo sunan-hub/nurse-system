@@ -97,7 +97,7 @@
 		},
 		destroyed() {
 			// 清除数据
-			store.commit('clearTestPageData');
+			// store.commit('clearTestPageData');
 		},
 		methods: {
 			getSafeAreaInsets() {
@@ -126,6 +126,9 @@
 			handleSubmit() {
 				console.log('第一个表单数据', JSON.stringify(store.state.evaluateFormData))
 				console.log('第二个表单数据', JSON.stringify(store.state.miniCogData))
+				uni.switchTab({
+					url: '/pages/result/result'
+				})
 			}
 		}
 	};

@@ -7,7 +7,7 @@
 		</view>
 
 		<!-- 添加按钮 -->
-		<view class='video-box' @click='addPic' v-else>
+		<view class='video-box' @click='addPic' v-if="!value && !disable">
 			<image class='video' src='../static/add_image.png' />
 		</view>
 	</view>
@@ -24,6 +24,10 @@
 			type: {
 				type: "video" | 'img',
 				required: false
+			},
+			disable: {
+				type: Boolean,
+				require: false
 			}
 		},
 		data() {
