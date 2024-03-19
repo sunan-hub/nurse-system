@@ -26,7 +26,6 @@
 
 <script>
 	import navbar from '@/components/nav-bar.vue';
-	import recording from '../components/recording.vue';
 	import recordingOne from './one.vue';
 	import uploadVideo from './two.vue';
 	import recordingThree from './three.vue';
@@ -35,7 +34,6 @@
 	export default {
 		components: {
 			navbar,
-			recording,
 			uploadVideo,
 			recordingOne,
 			recordingThree

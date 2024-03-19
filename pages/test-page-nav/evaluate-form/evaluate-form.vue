@@ -7,15 +7,16 @@
 				<view class="title">基本信息</view>
 				<view class="item">
 					<template v-for="item in items">
-						<form-item-render :key="item.key" :item="item" v-model="formData" @onChange="itemOnChange" />
+						<form-item-render :key="item.key" :item="item" v-model="formData[item.key]"
+							:detailValue="formData[item.detail.key]" @onChange="itemOnChange" />
 					</template>
 				</view>
 			</view>
 
 			<!-- 按钮区域 -->
 			<view class="foot" v-if="!isDetail">
-				<button class="default" form-type="reset" @click="formReset">重置</button>
-				<button form-type="submit" @click="formSubmit">提交</button>
+				<button class="default" @click="formReset">重置</button>
+				<button @click="formSubmit">提交</button>
 			</view>
 		</view>
 	</view>
@@ -134,21 +135,13 @@
 				},
 			}
 		},
-		mounted() {
-			this.getSafeAreaInsets()
-		},
 		computed: {
 			inputDisabled() {
 				return this.radioValue === '是';
 			},
 		},
 		methods: {
-			getSafeAreaInsets() {
-				// 获取屏幕边界到安全区域距离
-				const systemInfo = uni.getSystemInfoSync()
-				this.safeAreaInsets = systemInfo.safeAreaInsets
-			},
-			formSubmit(e) {
+			formSubmit() {
 				// 注入仓库
 				store.commit('setEvaluateFormData', {
 					...this.formData
@@ -158,10 +151,12 @@
 					showCancel: false
 				});
 			},
-			formReset(e) {
+			formReset() {
 				Object.keys(this.formData).forEach(key => {
 					this.$set(this.formData, key, undefined)
 				})
+				// 清空仓库数据
+				store.commit('setEvaluateFormData', {})
 			},
 			// 监听item变化
 			itemOnChange(item) {

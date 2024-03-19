@@ -13,7 +13,7 @@
 					</template>
 				</view>
 				<input class="detail" v-if="getShowDetailInput()" :placeholder="'请输入' + item.detail.label"
-					v-model="detailValue" />
+					v-model="currentDetailValue" />
 			</radio-group>
 			<!-- 复选框多选 -->
 			<checkbox-group v-if="item.type == 'checkbox'" @change="onChange">
@@ -26,13 +26,13 @@
 					</template>
 				</view>
 				<input class="detail" v-if="getShowDetailInput()" :placeholder="'请输入' + item.detail.label"
-					v-model="detailValue" />
+					v-model="currentDetailValue" />
 			</checkbox-group>
 			<!-- 数字输入框 -->
 			<input v-else-if="item.type == 'number'" type="number" :placeholder="'请输入' + item.label"
-				v-model="value[item.key]" />
+				v-model="currentValue" />
 			<!-- 输入框 -->
-			<input v-else-if="item.type == 'input'" :placeholder="'请输入' + item.label" v-model="value[item.key]" />
+			<input v-else-if="item.type == 'input'" :placeholder="'请输入' + item.label" v-model="currentValue" />
 		</view>
 	</view>
 </template>
@@ -45,27 +45,42 @@
 				type: Object,
 				require: true,
 			},
-			value: { // 这里的value是整个表单的formData
-				type: Object,
+			value: {
+				require: false,
+			},
+			detailValue: {
 				require: false,
 			}
 		},
 		data() {
 			return {
-				detailValue: this.item.detail?.key ? this.value[this.item.detail.key] : undefined
+				currentValue: this.value,
+				currentDetailValue: this.detailValue
 			}
 		},
 		watch: {
 			value: {
 				deep: true,
 				handler(newValue, oldValue) {
-					this.$emit('onChange', {
-						key: this.item.key,
-						value: newValue[this.item.key]
-					})
+					this.currentValue = newValue
 				}
 			},
 			detailValue: {
+				deep: true,
+				handler(newValue, oldValue) {
+					this.currentDetailValue = newValue
+				}
+			},
+			currentValue: {
+				deep: true,
+				handler(newValue, oldValue) {
+					this.$emit('onChange', {
+						key: this.item.key,
+						value: newValue
+					})
+				}
+			},
+			currentDetailValue: {
 				deep: true,
 				handler(newValue, oldValue) {
 					this.$emit('onChange', {
@@ -78,19 +93,20 @@
 		methods: {
 			// 单选框和多选框不能双向绑定只能这个
 			onChange(e) {
-				// this.value = e.detail.value
-				this.$set(this.value, this.item.key, e.detail.value)
+				this.$emit('onChange', {
+					key: this.item.key,
+					value: e.detail.value
+				})
 			},
 			// Checked选项是否选中
 			getChecked(value) {
-				return this.item.type == 'checkbox' ? this.value[this.item.key]?.includes(value) : this.value[this.item
-					.key] == value
+				return this.item.type == 'checkbox' ? this.currentValue?.includes(value) : this.currentValue == value
 			},
 			// 是否显示附加详情
 			getShowDetailInput() {
 				if (this.item.type == 'checkbox')
-					return this.item.detail && this.value[this.item.key]?.includes(this.item.detail.showValue)
-				else return this.item.detail && this.value[this.item.key] == this.item.detail.showValue
+					return this.item.detail && this.currentValue?.includes(this.item.detail.showValue)
+				else return this.item.detail && this.currentValue == this.item.detail.showValue
 			}
 		}
 
