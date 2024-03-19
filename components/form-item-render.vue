@@ -4,7 +4,7 @@
 		<view class="value-wrap">
 			<!-- 单选框 -->
 			<radio-group v-if="item.type == 'radio'" @change="onChange">
-				<view class="radio-items-wrap">
+				<view class="radio-items-wrap" :class="item.options.length > 3 && 'column'">
 					<template v-for="option in item.options">
 						<label :key="option.value">
 							<radio :value="option.value" :checked="getChecked(option.value)" />
@@ -12,12 +12,10 @@
 						</label>
 					</template>
 				</view>
-				<input class="detail" v-if="getShowDetailInput()" :placeholder="'请输入' + item.detail.label"
-					v-model="currentDetailValue" />
 			</radio-group>
 			<!-- 复选框多选 -->
 			<checkbox-group v-if="item.type == 'checkbox'" @change="onChange">
-				<view class="checkbox-items-wrap">
+				<view class="checkbox-items-wrap" :class="item.options.length > 3 && 'column'">
 					<template v-for="option in item.options">
 						<label :key="option.value" class="radio-item-wrap">
 							<checkbox :value="option.value" :checked="getChecked(option.value)" />
@@ -25,8 +23,6 @@
 						</label>
 					</template>
 				</view>
-				<input class="detail" v-if="getShowDetailInput()" :placeholder="'请输入' + item.detail.label"
-					v-model="currentDetailValue" />
 			</checkbox-group>
 			<!-- 数字输入框 -->
 			<input v-else-if="item.type == 'number'" type="number" :placeholder="'请输入' + item.label"
@@ -48,14 +44,10 @@
 			value: {
 				require: false,
 			},
-			detailValue: {
-				require: false,
-			}
 		},
 		data() {
 			return {
 				currentValue: this.value,
-				currentDetailValue: this.detailValue
 			}
 		},
 		watch: {
@@ -63,12 +55,6 @@
 				deep: true,
 				handler(newValue, oldValue) {
 					this.currentValue = newValue
-				}
-			},
-			detailValue: {
-				deep: true,
-				handler(newValue, oldValue) {
-					this.currentDetailValue = newValue
 				}
 			},
 			currentValue: {
@@ -80,15 +66,6 @@
 					})
 				}
 			},
-			currentDetailValue: {
-				deep: true,
-				handler(newValue, oldValue) {
-					this.$emit('onChange', {
-						key: this.item.detail.key,
-						value: newValue
-					})
-				}
-			}
 		},
 		methods: {
 			// 单选框和多选框不能双向绑定只能这个
@@ -102,12 +79,6 @@
 			getChecked(value) {
 				return this.item.type == 'checkbox' ? this.currentValue?.includes(value) : this.currentValue == value
 			},
-			// 是否显示附加详情
-			getShowDetailInput() {
-				if (this.item.type == 'checkbox')
-					return this.item.detail && this.currentValue?.includes(this.item.detail.showValue)
-				else return this.item.detail && this.currentValue == this.item.detail.showValue
-			}
 		}
 
 	}
@@ -128,9 +99,33 @@
 		.value-wrap {
 			color: #000000;
 
+			// 输入框
+			.input-placeholder {
+				color: #cccccc;
+			}
+
 			// 单选的选项封装
-			.radio-items-wrap {
+			.radio-items-wrap,
+			.checkbox-items-wrap {
+				&.column {
+					// 超过三个选项换行
+					display: flex;
+					flex-direction: column;
+
+					label {
+						width: 100%;
+
+						&:nth-child(n) {
+							margin-bottom: 8px;
+						}
+					}
+				}
+
 				label {
+					min-width: 30%;
+					width: max-content;
+					display: inline-block;
+
 					&:nth-child(n) {
 						margin-right: 16px;
 					}
@@ -139,23 +134,6 @@
 				.text {
 					font-size: 13px;
 				}
-			}
-
-			// 多选的选项封装
-			.checkbox-items-wrap {
-				display: flex;
-				flex-direction: column;
-
-				label {
-					&:nth-child(n) {
-						margin-bottom: 8px;
-					}
-				}
-			}
-
-			// 单选和多选的详细说明
-			.detail {
-				margin-top: 4px;
 			}
 		}
 	}

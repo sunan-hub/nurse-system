@@ -133,6 +133,7 @@
 				padding: 0px 16px;
 				color: rgb(144, 215, 172);
 				font-size: 16px;
+				white-space: nowrap;
 			}
 		}
 

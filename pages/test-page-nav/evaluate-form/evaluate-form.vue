@@ -1,6 +1,6 @@
 <template>
 	<view class="page-wrap" :class="isDetail && 'detail-page'">
-		<navbar v-if="!isDetail" :pageTitle="pageTitle" :showGoback="true" />
+		<navbar v-if="!isDetail" pageTitle="阿尔兹海默病早期筛查及评估" :showGoback="true" />
 
 		<view class="evaluate-form-wrap">
 			<view class="content-wrap">
@@ -8,7 +8,8 @@
 				<view class="item">
 					<template v-for="item in items">
 						<form-item-render :key="item.key" :item="item" v-model="formData[item.key]"
-							:detailValue="formData[item.detail.key]" @onChange="itemOnChange" />
+							v-if="!item.showCondition || getShowFormItem(item.showCondition)"
+							@onChange="itemOnChange" />
 					</template>
 				</view>
 			</view>
@@ -40,96 +41,7 @@
 		},
 		data() {
 			return {
-				safeAreaInsets: null,
-				pageTitle: "阿尔兹海默病早期筛查及评估",
-				items: [{
-						label: '名字',
-						key: 'name',
-						type: 'input'
-					},
-					{
-						label: '性别',
-						key: 'sex',
-						type: 'radio',
-						options: [{
-							label: '男',
-							value: '1',
-						}, {
-							label: '女',
-							value: '0',
-						}]
-					},
-					{
-						label: '年龄',
-						key: 'age',
-						type: 'number'
-					},
-					{
-						label: '身高',
-						key: 'height',
-						type: 'number'
-					},
-					{
-						label: '体重',
-						key: 'weight',
-						type: 'number'
-					},
-					{
-						label: '出生地',
-						key: 'birthplace',
-						type: 'input'
-					},
-					{
-						label: '长期居住地',
-						key: 'city',
-						type: 'radio',
-						options: [{
-							label: '城市',
-							value: 'city',
-						}, {
-							label: '农村',
-							value: 'village',
-						}]
-					},
-					{
-						label: '职业',
-						key: 'career',
-						type: 'checkbox',
-						options: [{
-							label: '家公务员',
-							value: '1',
-						}, {
-							label: '专业技术人员',
-							value: '2',
-						}, {
-							label: '农、林、牧、渔业人员',
-							value: '3',
-						}, {
-							label: '社会生产和生活服务人员',
-							value: '4',
-						}, {
-							label: '其他不便分类的从业人员',
-							value: '5',
-						}]
-					},
-					{
-						label: '毒药物接触史',
-						key: 'drug',
-						type: 'radio',
-						options: [{
-							label: '是',
-							value: '1',
-						}, {
-							label: '否',
-							value: '0',
-						}],
-						detail: {
-							label: '具体毒药物接触史',
-							key: 'specificDrug',
-							showValue: '1' // 毒药物接触史等于1的时候显示
-						}
-					},
-				],
+				items: store.state.evaluateFormItems,
 				formData: { // 结构赋值，不然会直接更改仓库
 					...(store.state.evaluateFormData || {})
 				},
@@ -162,6 +74,10 @@
 			itemOnChange(item) {
 				this.$set(this.formData, item.key, item.value)
 			},
+			// 判断是否显示绑定条件字段
+			getShowFormItem(condition) {
+				return this.formData[condition.key] == condition.value
+			}
 		}
 	}
 </script>

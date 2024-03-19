@@ -1,6 +1,6 @@
 <template>
 	<view class="wrapper">
-		<navbar :pageTitle="pageTitle" :showGoback="true" />
+		<navbar pageTitle="阿尔兹海默病筛查" :showGoback="true" />
 
 		<view class="content">
 			<!-- 总指引 -->
@@ -44,8 +44,6 @@
 		},
 		data() {
 			return {
-				safeAreaInsets: null,
-				pageTitle: "阿尔兹海默病筛查",
 				old_id: "老人id",
 				// 第一个表单的数据
 				evaluateFormValue: {},
@@ -92,19 +90,11 @@
 				]
 			}
 		},
-		mounted() {
-			this.getSafeAreaInsets()
-		},
 		destroyed() {
 			// 清除数据
 			// store.commit('clearTestPageData');
 		},
 		methods: {
-			getSafeAreaInsets() {
-				// 获取屏幕边界到安全区域距离
-				const systemInfo = uni.getSystemInfoSync()
-				this.safeAreaInsets = systemInfo.safeAreaInsets
-			},
 			openPage(url) {
 				uni.navigateTo({
 					url: url
