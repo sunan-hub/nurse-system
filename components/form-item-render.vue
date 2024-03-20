@@ -1,7 +1,9 @@
 <template>
 	<view class="form-item">
 		<view class="label">{{ item.label }}</view>
-		<view class="value-wrap">
+
+		<!-- 可编辑态 -->
+		<view class="value-wrap" v-if="!disable">
 			<!-- 单选框 -->
 			<radio-group v-if="item.type == 'radio'" @change="onChange">
 				<view class="radio-items-wrap" :class="item.options.length > 3 && 'column'">
@@ -30,6 +32,11 @@
 			<!-- 输入框 -->
 			<input v-else-if="item.type == 'input'" :placeholder="'请输入' + item.label" v-model="currentValue" />
 		</view>
+
+		<!-- 仅展示状态 -->
+		<view class="value-wrap" v-else>
+			{{ showValue }}
+		</view>
 	</view>
 </template>
 
@@ -44,10 +51,15 @@
 			value: {
 				require: false,
 			},
+			disable: {
+				type: Boolean,
+				require: false,
+			}
 		},
 		data() {
 			return {
 				currentValue: this.value,
+				showValue: '',
 			}
 		},
 		watch: {
@@ -67,6 +79,9 @@
 				}
 			},
 		},
+		mounted() {
+			this.getShowDetail()
+		},
 		methods: {
 			// 单选框和多选框不能双向绑定只能这个
 			onChange(e) {
@@ -79,6 +94,25 @@
 			getChecked(value) {
 				return this.item.type == 'checkbox' ? this.currentValue?.includes(value) : this.currentValue == value
 			},
+			// 获取展示数据
+			getShowDetail() {
+				switch (this.item.type) {
+					case 'radio':
+						this.showValue = this.item.options?.find((item) => item.value == this.value)?.label
+						break;
+					case 'checkbox':
+						this.showValue = this.item.options?.filter((item) => item.value == this.value).map((item) => item
+								.label)
+							.join(',')
+						break;
+					case 'number':
+					case 'input':
+						this.showValue = this.value
+						break;
+					default:
+						break;
+				}
+			}
 		}
 
 	}

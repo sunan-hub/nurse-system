@@ -1,13 +1,13 @@
 <template>
 	<view class="page-wrap" :class="isDetail && 'detail-page'">
-		<navbar v-if="!isDetail" pageTitle="阿尔兹海默病早期筛查及评估" :showGoback="true" />
+		<navbar pageTitle="阿尔兹海默病早期筛查及评估" :showGoback="true" />
 
 		<view class="evaluate-form-wrap">
 			<view class="content-wrap">
 				<view class="title">基本信息</view>
 				<view class="item">
 					<template v-for="item in items">
-						<form-item-render :key="item.key" :item="item" v-model="formData[item.key]"
+						<form-item-render :key="item.key" :item="item" v-model="formData[item.key]" :disable="isDetail"
 							v-if="!item.showCondition || getShowFormItem(item.showCondition)"
 							@onChange="itemOnChange" />
 					</template>
@@ -34,16 +34,14 @@
 			navbar,
 			formItemRender,
 		},
-		props: {
-			isDetail: {
-				type: Boolean,
-			}
-		},
 		data() {
 			return {
+				isDetail: false,
 				items: store.state.evaluateFormItems,
 				formData: { // 结构赋值，不然会直接更改仓库
-					...(store.state.evaluateFormData || {})
+					...(JSON.parse(
+						'{"pationt_name":"孙安","sex":"1","age":"25","bmi":"100","birthplace":"海南昌江","address":"广州","city":"city","career":"1","drug":"0","drug_history":"虚无","smoke":"0","hobby":"3","hobby_puzzle":"很多","patient_id":"1","nurse":"1","created_at":"zza","score_sum":"1"}'
+					) || store.state.evaluateFormData || {})
 				},
 			}
 		},
@@ -52,24 +50,27 @@
 				return this.radioValue === '是';
 			},
 		},
+		onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
+			this.isDetail = !!Number(option.isDetail);
+		},
 		methods: {
 			formSubmit() {
-				
+
 				this.formData["patient_id"] = "1";
 				// this.formData["patient_name"] = "1";
 				this.formData["nurse"] = "1";
 				this.formData["created_at"] = "zza";
 				this.formData["score_sum"] = "1";
-				
-				
+
+
 				// 注入仓库
 				store.commit('setEvaluateFormData', {
 					...this.formData
 				})
-				
-				console.log('111111111111111',store.state.evaluateFormData);
-				
-				
+
+				console.log('111111111111111', JSON.stringify(store.state.evaluateFormData));
+
+
 				uni.showModal({
 					content: '表单数据内容：' + JSON.stringify(this.formData),
 					showCancel: false

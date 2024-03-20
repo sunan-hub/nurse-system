@@ -16,6 +16,7 @@
 						<text>{{ userId }}</text>
 					</view>
 				</view>
+				
 				<!-- 其它 -->
 				<view class="extra">
 					<uni-list>
@@ -28,7 +29,7 @@
 		</view>
 
 		<!-- 按钮区域 -->
-		<view class="foot">
+		<view class="foot" v-if="!isDetail">
 			<button @click="handleSubmit">提交</button>
 		</view>
 	</view>
@@ -46,7 +47,7 @@
 			return {
 				userId: "老人id",
 				// 是否是详情页（非编辑态）
-				isDetail: false,
+				isDetail: 0,
 				// 第一个表单的数据
 				evaluateFormValue: {},
 				// 图片list
@@ -93,7 +94,7 @@
 			}
 		},
 		onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
-			this.isDetail = !!Number(option.isDetail);
+			this.isDetail = Number(option.isDetail);
 			this.userId = option.userId
 		},
 		destroyed() {
@@ -103,7 +104,7 @@
 		methods: {
 			openPage(url) {
 				uni.navigateTo({
-					url: url
+					url: url + '?isDetail=' + this.isDetail
 				});
 			},
 			// 测评表单数据变化
@@ -147,9 +148,7 @@
 					flex-direction: column;
 					width: 80%;
 					height: 200rpx;
-					margin: 0 auto;
-					margin-top: 20rpx;
-					border-bottom: 1px solid #EEEEEE;
+					margin: 20rpx auto;
 					justify-content: center;
 					align-items: center;
 

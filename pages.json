@@ -116,6 +116,15 @@
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "简易智能精神状态量表(MMSE)"
 			}
+		},
+		{
+			"path": "pages/result/test-history",
+			"style": {
+				"navigationStyle": "custom", // 隐藏默认导航
+				"navigationBarBackgroundColor": "#76EEC6",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "测评结果历史记录"
+			}
 		}
 	],
 	"tabBar": {

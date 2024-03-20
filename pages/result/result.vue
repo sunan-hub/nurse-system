@@ -27,7 +27,7 @@
 				itemList: new Array(20).fill(0).map((item, index) => ({
 					title: '老人' + (index + 1),
 					note: '列表描述信息',
-					rightText: '查看结果',
+					rightText: '查看历史测量记录',
 					thumb: '/static/old.png',
 					thumbSize: 'lg'
 				}))
@@ -36,7 +36,7 @@
 		methods: {
 			onClick(item) {
 				uni.navigateTo({
-					url: `/pages/test-page-nav/test-page-nav?userId=${item.title}&isDetail=1`
+					url: `/pages/result/test-history?userId=${item.title}1`
 				});
 			}
 		}
