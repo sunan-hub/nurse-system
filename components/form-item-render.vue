@@ -88,12 +88,12 @@
 	.form-item {
 		font-size: 13px;
 		font-weight: 400;
-		margin-bottom: 24px;
+		margin-bottom: 32px;
 
 		.label {
 			font-size: 14px;
 			color: #666666;
-			margin-bottom: 4px;
+			margin-bottom: 8px;
 		}
 
 		.value-wrap {

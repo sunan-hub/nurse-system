@@ -102,6 +102,7 @@
 
 			.input-wrap {
 				position: relative;
+				flex: 1;
 
 				.search-input {
 					background-color: #fff;
