@@ -6,6 +6,14 @@
 			</view>
 
 			<recording style="width: 100%; flex: 1" @onChange="onChange" :value="value" :disable="isDetail" />
+			<view class="score">答对个数：
+				<radio-group>
+				  <radio value="0" />0个
+				  <radio value="1" />1个
+				  <radio value="2" />2个
+				  <radio value="3" />3个
+				</radio-group>
+			</view>
 		</view>
 	</view>
 </template>
@@ -13,6 +21,8 @@
 <script>
 	import navbar from '@/components/nav-bar.vue';
 	import recording from '@/components/recording.vue';
+	import formItemRender from '@/components/form-item-render.vue'
+	
 
 	export default {
 		components: {

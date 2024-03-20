@@ -13,6 +13,16 @@
 			<view v-if="!!value && !isDetail" class='delete' @click='handleDelete'>
 				删除重新拍摄
 			</view>
+			
+			<view class="score">答对个数：
+				<checkbox-group>
+				  <checkbox value="0" />画不出
+				  <checkbox value="1" />画出闭锁的圆
+				  <checkbox value="2" />将数字安置在正确的位置
+				  <checkbox value="3" />包括全部12个正确的数字
+				  <checkbox value="4" />将指针安置在正确的位置
+				</checkbox-group>
+			</view>
 		</view>
 	</view>
 </template>

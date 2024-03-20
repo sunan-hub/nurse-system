@@ -24,112 +24,20 @@
 		},
 		data() {
 			return {
-				itemList: [{
-						title: '老人1',
-						note: '列表描述信息',
-						rightText: '查看结果',
-						thumb: '/static/old.png',
-						thumbSize: 'lg'
-					},
-					{
-						title: '老人2',
-						note: '列表描述信息',
-						rightText: '查看结果',
-						thumb: '/static/old.png',
-						thumbSize: 'lg'
-					},
-					{
-						title: '老人3',
-						note: '列表描述信息',
-						rightText: '查看结果',
-						thumb: '/static/old.png',
-						thumbSize: 'lg'
-					},
-					{
-						title: '老人4',
-						note: '列表描述信息',
-						rightText: '查看结果',
-						thumb: '/static/old.png',
-						thumbSize: 'lg'
-					},
-					{
-						title: '老人5',
-						note: '列表描述信息',
-						rightText: '查看结果',
-						thumb: '/static/old.png',
-						thumbSize: 'lg'
-					},
-					{
-						title: '老人6',
-						note: '列表描述信息',
-						rightText: '查看结果',
-						thumb: '/static/old.png',
-						thumbSize: 'lg'
-					},
-					{
-						title: '老人7',
-						note: '列表描述信息',
-						rightText: '查看结果',
-						thumb: '/static/old.png',
-						thumbSize: 'lg'
-					},
-					{
-						title: '老人8',
-						note: '列表描述信息',
-						rightText: '查看结果',
-						thumb: '/static/old.png',
-						thumbSize: 'lg'
-					},
-					{
-						title: '老人9',
-						note: '列表描述信息',
-						rightText: '查看结果',
-						thumb: '/static/old.png',
-						thumbSize: 'lg'
-					},
-					{
-						title: '老人10',
-						note: '列表描述信息',
-						rightText: '查看结果',
-						thumb: '/static/old.png',
-						thumbSize: 'lg'
-					},
-					{
-						title: '老人11',
-						note: '列表描述信息',
-						rightText: '查看结果',
-						thumb: '/static/old.png',
-						thumbSize: 'lg'
-					},
-					{
-						title: '老人12',
-						note: '列表描述信息',
-						rightText: '查看结果',
-						thumb: '/static/old.png',
-						thumbSize: 'lg'
-					},
-					{
-						title: '老人13',
-						note: '列表描述信息',
-						rightText: '查看结果',
-						thumb: '/static/old.png',
-						thumbSize: 'lg'
-					},
-					{
-						title: '老人14',
-						note: '列表描述信息',
-						rightText: '查看结果',
-						thumb: '/static/old.png',
-						thumbSize: 'lg'
-					},
-				]
+				itemList: new Array(20).fill(0).map((item, index) => ({
+					title: '老人' + (index + 1),
+					note: '列表描述信息',
+					rightText: '查看结果',
+					thumb: '/static/old.png',
+					thumbSize: 'lg'
+				}))
 			}
 		},
 		methods: {
 			onClick(item) {
 				uni.navigateTo({
-					url: '/pages/result/detail?username=' + item.title
-				})
+					url: `/pages/test-page-nav/test-page-nav?userId=${item.title}&isDetail=1`
+				});
 			}
 		}
 	}

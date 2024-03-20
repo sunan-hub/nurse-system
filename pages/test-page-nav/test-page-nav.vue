@@ -13,7 +13,7 @@
 						<open-data type="userAvatarUrl" class="user_head"></open-data>
 					</view>
 					<view class="center_info">
-						<text>{{old_id}}</text>
+						<text>{{ userId }}</text>
 					</view>
 				</view>
 				<!-- 其它 -->
@@ -44,7 +44,9 @@
 		},
 		data() {
 			return {
-				old_id: "老人id",
+				userId: "老人id",
+				// 是否是详情页（非编辑态）
+				isDetail: false,
 				// 第一个表单的数据
 				evaluateFormValue: {},
 				// 图片list
@@ -89,6 +91,10 @@
 					},
 				]
 			}
+		},
+		onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
+			this.isDetail = !!Number(option.isDetail);
+			this.userId = option.userId
 		},
 		destroyed() {
 			// 清除数据

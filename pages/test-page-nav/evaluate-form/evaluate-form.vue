@@ -54,10 +54,22 @@
 		},
 		methods: {
 			formSubmit() {
+				
+				this.formData["patient_id"] = "1";
+				// this.formData["patient_name"] = "1";
+				this.formData["nurse"] = "1";
+				this.formData["created_at"] = "zza";
+				this.formData["score_sum"] = "1";
+				
+				
 				// 注入仓库
 				store.commit('setEvaluateFormData', {
 					...this.formData
 				})
+				
+				console.log('111111111111111',store.state.evaluateFormData);
+				
+				
 				uni.showModal({
 					content: '表单数据内容：' + JSON.stringify(this.formData),
 					showCancel: false
