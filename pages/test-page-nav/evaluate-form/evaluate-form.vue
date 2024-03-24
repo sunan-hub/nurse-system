@@ -3,16 +3,18 @@
 		<navbar pageTitle="阿尔兹海默病早期筛查及评估" :showGoback="true" />
 
 		<view class="evaluate-form-wrap">
-			<view class="content-wrap">
+			<scroll-view scroll-y scroll-with-animation class="content-wrap" :scroll-into-view="scrollId"
+				@scroll="scroll">
 				<view class="title">基本信息</view>
 				<view class="item">
 					<template v-for="item in items">
-						<form-item-render :key="item.key" :item="item" v-model="formData[item.key]" :disable="isDetail"
+						<form-item-render :id="'scroll-' + item.key" :key="item.key" :item="item"
+							v-model="formData[item.key]" :disable="isDetail"
 							v-if="!item.showCondition || getShowFormItem(item.showCondition)"
 							@onChange="itemOnChange" />
 					</template>
 				</view>
-			</view>
+			</scroll-view>
 
 			<!-- 按钮区域 -->
 			<view class="foot" v-if="!isDetail">
@@ -36,6 +38,7 @@
 		},
 		data() {
 			return {
+				scrollId: '',
 				isDetail: false,
 				items: store.state.evaluateFormItems,
 				formData: { // 结构赋值，不然会直接更改仓库
@@ -55,26 +58,52 @@
 		},
 		methods: {
 			formSubmit() {
-
-				this.formData["patient_id"] = "1";
-				// this.formData["patient_name"] = "1";
-				this.formData["nurse"] = "1";
-				this.formData["created_at"] = "zza";
-				this.formData["score_sum"] = "1";
-
-
-				// 注入仓库
-				store.commit('setEvaluateFormData', {
-					...this.formData
+				let nullItem = null; // 存在未填写且显示的元素
+				store.state.evaluateFormItems.forEach((item) => {
+					if (nullItem) return; // 存在就别在找了
+					let isNull = false; // 是否未填写
+					switch (item.type) {
+						case 'input':
+						case 'number':
+						case 'radio':
+							if (this.formData[item.key] == undefined || this.formData[item.key] == '')
+								isNull = true
+							break;
+						case 'checkbox':
+							if (!this.formData[item.key]?.length) isNull = true
+							break;
+					}
+					if (isNull) {
+						// 是否是被隐藏的元素
+						const showToast = !item.showCondition || this.getShowFormItem(item.showCondition)
+						if (showToast) nullItem = item;
+					}
 				})
 
-				console.log('111111111111111', JSON.stringify(store.state.evaluateFormData));
+				if (nullItem) {
+					console.log('scroll-' + nullItem.key)
+					this.scrollId = 'scroll-' + nullItem.key;
+					uni.showToast({
+						title: '请填写' + nullItem.label,
+						icon: 'none'
+					})
+				} else {
+					this.formData["patient_id"] = "1";
+					// this.formData["patient_name"] = "1";
+					this.formData["nurse"] = "1";
+					this.formData["created_at"] = "zza";
+					this.formData["score_sum"] = "1";
 
+					// 注入仓库
+					store.commit('setEvaluateFormData', {
+						...this.formData
+					})
 
-				uni.showModal({
-					content: '表单数据内容：' + JSON.stringify(this.formData),
-					showCancel: false
-				});
+					// uni.showModal({
+					// 	content: '表单数据内容：' + JSON.stringify(this.formData),
+					// 	showCancel: false
+					// });
+				}
 			},
 			formReset() {
 				Object.keys(this.formData).forEach(key => {
@@ -90,6 +119,10 @@
 			// 判断是否显示绑定条件字段
 			getShowFormItem(condition) {
 				return this.formData[condition.key] == condition.value
+			},
+			// 容器滚动时
+			scroll() {
+				this.scrollId = ''
 			}
 		}
 	}

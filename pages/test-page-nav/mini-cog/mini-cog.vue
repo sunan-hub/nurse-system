@@ -38,17 +38,13 @@
 			recordingOne,
 			recordingThree
 		},
-		props: {
-			isDetail: {
-				type: Boolean,
-			}
-		},
 		data() {
 			return {
 				current: 1,
 				recordingVoicePath1: '',
 				recordingVoicePath2: '',
 				videoPath: '',
+				isDetail: false
 			}
 		},
 		mounted() {
