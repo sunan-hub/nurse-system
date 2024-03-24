@@ -1,18 +1,34 @@
 <template>
-	<view class="page-wrap" :class="isDetail && 'detail-page'">
+	<view class="page-wrap">
 		<view class="content">
 			<view class="tips">
 				<text>{{ tips }}</text>
 			</view>
 
 			<recording style="width: 100%; flex: 1" @onChange="onChange" :value="value" :disable="isDetail" />
-			<view class="score">答对个数：
-				<radio-group>
-				  <radio value="0" />0个
-				  <radio value="1" />1个
-				  <radio value="2" />2个
-				  <radio value="3" />3个
+
+			<view class="result">
+				<view class="label">
+					答对个数：
+				</view>
+				<radio-group class="value-wrap" @change="resultChange">
+					<label class="item-wrpa">
+						<radio value="0" :disabled="isDetail" />0个
+					</label>
+					<label class="item-wrpa">
+						<radio value="1" :disabled="isDetail" />1个
+					</label>
+					<label class="item-wrpa">
+						<radio value="2" :disabled="isDetail" />2个
+					</label>
+					<label class="item-wrpa">
+						<radio value="3" :disabled="isDetail" />3个
+					</label>
 				</radio-group>
+			</view>
+
+			<view class="score" v-if="isDetail || true">
+				总得分：{{ score }}
 			</view>
 		</view>
 	</view>
@@ -22,7 +38,7 @@
 	import navbar from '@/components/nav-bar.vue';
 	import recording from '@/components/recording.vue';
 	import formItemRender from '@/components/form-item-render.vue'
-	
+
 
 	export default {
 		components: {
@@ -35,6 +51,7 @@
 		},
 		data() {
 			return {
+				score: 0, // 分数
 				tips: '重复说出以上三个词'
 			}
 		},
@@ -49,6 +66,10 @@
 			},
 			onChange(data) {
 				this.$emit('onChange', data)
+			},
+			// 结果变化
+			resultChange(e) {
+				this.score = e.detail.value
 			}
 		},
 	}
@@ -61,10 +82,6 @@
 		height: 100%;
 		padding: 16rpx;
 		overflow-y: auto;
-
-		&.detail-page {
-			min-height: 50vh;
-		}
 	}
 
 	.content {
@@ -93,6 +110,32 @@
 		height: 300rpx;
 		background-color: #e7eaec;
 		border-radius: 8px;
+	}
+
+	.result {
+		margin-top: 8px;
+		width: 100%;
+
+		.label {
+			color: #999;
+		}
+
+		.value-wrap {
+			display: flex;
+			align-items: center;
+			margin-top: 8px;
+
+			.item-wrpa {
+				display: flex;
+				align-items: center;
+				width: 25%;
+			}
+		}
+	}
+
+	.score {
+		margin-top: 24px;
+		width: 100%;
 	}
 
 	.audioShow {

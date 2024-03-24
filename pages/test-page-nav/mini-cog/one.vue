@@ -1,5 +1,5 @@
 <template>
-	<view class="page-wrap" :class="isDetail && 'detail-page'">
+	<view class="page-wrap">
 		<view class="content">
 			<view class="tips">
 				<text>{{ tips }}</text>
@@ -51,10 +51,6 @@
 		height: 100%;
 		padding: 16rpx;
 		overflow-y: auto;
-
-		&.detail-page {
-			min-height: 50vh;
-		}
 	}
 
 	.content {

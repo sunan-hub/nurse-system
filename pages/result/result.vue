@@ -1,6 +1,6 @@
 <template>
 	<view class="page-wrap">
-		<navbar pageTitle="结果" :showGoback="true" />
+		<navbar pageTitle="结果" :showGoback="false" />
 
 		<uni-list class="content-wrap">
 			<uni-list-item title="测评结果（按时间顺序）" />

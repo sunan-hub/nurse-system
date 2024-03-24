@@ -1,6 +1,6 @@
 <template>
 	<view class="mini-cog-wrap" :class="isDetail && 'detail-page'">
-		<navbar v-if="!isDetail" :pageTitle="'MINI-COG量表 ' + current + '/3'" :showGoback="true" />
+		<navbar :pageTitle="'MINI-COG量表 ' + current + '/3'" :showGoback="true" />
 
 		<view class="content">
 			<!-- 第一题录音 -->
@@ -9,7 +9,7 @@
 			<!-- 第二题画图 -->
 			<uploadVideo v-if="current == 2 || isDetail" @onChange="handleSaveVideo" :value="videoPath"
 				:isDetail="isDetail" />
-			<!-- 第三题 -->
+			<!-- 第三题录音 -->
 			<recordingThree v-if="current == 3 || isDetail" @onChange="handleSaveRecording" :value="recordingVoicePath2"
 				:isDetail="isDetail" />
 		</view>
@@ -20,6 +20,11 @@
 			<button class="btn" @click="switchPage('cancel')" v-else>取消测试</button>
 			<button class="btn" @click="switchPage('up')" v-if="current != 3">下一题</button>
 			<button class="btn" @click="switchPage('submit')" v-else>提交</button </view>
+		</view>
+
+		<view class="foot" v-else>
+			<button class="btn" @click="gotoDetail('/pages/test-page-nav/evaluate-form/evaluate-form')">上一页</button>
+			<button class="btn" @click="gotoDetail('/pages/test-page-nav/his/his')">下一页</button>
 		</view>
 	</view>
 </template>
@@ -50,8 +55,11 @@
 		mounted() {
 			this.getData();
 		},
+		onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
+			this.isDetail = !!Number(option.isDetail);
+		},
 		methods: {
-			// 切换页面
+			// 切换页面和提交
 			switchPage(type) {
 				if (type == 'up') this.current += 1;
 				else if (type == 'down') this.current -= 1;
@@ -83,6 +91,12 @@
 				this.recordingVoicePath1 = store.state.miniCogData?.recordingVoicePath1 || '';
 				this.recordingVoicePath2 = store.state.miniCogData?.recordingVoicePath2 || '';
 				this.videoPath = store.state.miniCogData?.videoPath || '';
+			},
+			// 跳转上下详情页
+			gotoDetail(url) {
+				uni.navigateTo({
+					url: url + '?isDetail=1'
+				});
 			}
 		}
 	}
@@ -98,8 +112,8 @@
 		background-image: linear-gradient(#76EEC6, #7FFFD4);
 
 		&.detail-page {
-			height: 100%;
-			width: 100%;
+			// height: 100%;
+			// width: 100%;
 		}
 
 		.content {

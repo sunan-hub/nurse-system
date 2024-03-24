@@ -1,5 +1,5 @@
 <template>
-	<view class="page-wrap" :class="isDetail && 'detail-page'">
+	<view class="page-wrap">
 		<navbar pageTitle="阿尔兹海默病早期筛查及评估" :showGoback="true" />
 
 		<view class="evaluate-form-wrap">
@@ -14,12 +14,20 @@
 							@onChange="itemOnChange" />
 					</template>
 				</view>
+
+				<view class="score" v-if="isDetail || true">
+					总得分：{{ score }}
+				</view>
 			</scroll-view>
 
 			<!-- 按钮区域 -->
 			<view class="foot" v-if="!isDetail">
 				<button class="default" @click="formReset">重置</button>
 				<button @click="formSubmit">提交</button>
+			</view>
+
+			<view class="foot" v-else>
+				<button @click="gotoMiniCogDetail">下一页</button>
 			</view>
 		</view>
 	</view>
@@ -38,10 +46,11 @@
 		},
 		data() {
 			return {
-				scrollId: '',
-				isDetail: false,
-				items: store.state.evaluateFormItems,
-				formData: { // 结构赋值，不然会直接更改仓库
+				scrollId: '', // 要滚动至显示的元素
+				score: 0, // 总得分
+				isDetail: false, // 是否是详情页，是就不能编辑
+				items: store.state.evaluateFormItems, // 渲染表单的配置
+				formData: {
 					...(JSON.parse(
 						'{"pationt_name":"孙安","sex":"1","age":"25","bmi":"100","birthplace":"海南昌江","address":"广州","city":"city","career":"1","drug":"0","drug_history":"虚无","smoke":"0","hobby":"3","hobby_puzzle":"很多","patient_id":"1","nurse":"1","created_at":"zza","score_sum":"1"}'
 					) || store.state.evaluateFormData || {})
@@ -123,6 +132,12 @@
 			// 容器滚动时
 			scroll() {
 				this.scrollId = ''
+			},
+			// 跳转到第二张表详情
+			gotoMiniCogDetail() {
+				uni.navigateTo({
+					url: '/pages/test-page-nav/mini-cog/mini-cog?isDetail=1'
+				});
 			}
 		}
 	}
@@ -135,11 +150,6 @@
 		display: flex;
 		flex-direction: column;
 		overflow: hidden;
-
-		&.detail-page {
-			height: 100%;
-			width: 100%;
-		}
 
 		.evaluate-form-wrap {
 			box-sizing: border-box;
@@ -161,6 +171,10 @@
 					margin-bottom: 12px;
 				}
 
+				// 总得分
+				.score {
+					width: 100%;
+				}
 			}
 
 			// 按钮区域

@@ -84,8 +84,10 @@
 		justify-content: space-evenly;
 
 		.video-box {
-			width: calc(100% - 68px);
-			height: calc(100% - 68px);
+			box-sizing: border-box;
+			padding: 24px;
+			width: 100%;
+			height: 100%;
 			margin: 12px 0;
 			display: flex;
 			flex-direction: column;

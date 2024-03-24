@@ -1,5 +1,5 @@
 <template>
-	<view class='page-wrap' :class="isDetail && 'detail-page'">
+	<view class='page-wrap'>
 		<view class="content">
 			<!-- 题目 -->
 			<view class="tips">
@@ -7,21 +7,38 @@
 			</view>
 
 			<!-- 视频 -->
-			<upload-video :value="value" @onChange="onChange" :disable="isDetail" />
+			<upload-video :value="videoPath" @onChange="onChange" :disable="isDetail" />
 
 			<!-- 删除按钮 -->
-			<view v-if="!!value && !isDetail" class='delete' @click='handleDelete'>
+			<view v-if="!!videoPath && !isDetail" class='deleteBtn' @click='handleDelete'>
 				删除重新拍摄
 			</view>
-			
-			<view class="score">答对个数：
-				<checkbox-group>
-				  <checkbox value="0" />画不出
-				  <checkbox value="1" />画出闭锁的圆
-				  <checkbox value="2" />将数字安置在正确的位置
-				  <checkbox value="3" />包括全部12个正确的数字
-				  <checkbox value="4" />将指针安置在正确的位置
+
+			<view class="result" v-if="videoPath || true">
+				<view class="label"> 结果
+					答对个数：
+				</view>
+				<checkbox-group class="value-wrap" @change="resultChange">
+					<label class="item-wrpa">
+						<checkbox value="0" :disabled="isDetail" />画不出
+					</label>
+					<label class="item-wrpa">
+						<checkbox value="1" :disabled="isDetail" />画出闭锁的圆
+					</label>
+					<label class="item-wrpa">
+						<checkbox value="2" :disabled="isDetail" />将数字安置在正确的位置
+					</label>
+					<label class="item-wrpa">
+						<checkbox value="3" :disabled="isDetail" />包括全部12个正确的数字
+					</label>
+					<label class="item-wrpa">
+						<checkbox value="4" :disabled="isDetail" />将指针安置在正确的位置
+					</label>
 				</checkbox-group>
+			</view>
+
+			<view class="score" v-if="isDetail || true">
+				总得分：{{ score }}
 			</view>
 		</view>
 	</view>
@@ -44,8 +61,18 @@
 				require: false
 			}
 		},
+		watch: {
+			value: {
+				deep: true,
+				handler(newValue, oldValue) {
+					this.videoPath = newValue
+				}
+			},
+		},
 		data() {
 			return {
+				score: 0, // 分数
+				videoPath: this.value, // 图片地址
 				quantityTableType: "Mini-Cog",
 				tips: "画出钟表表盘：\n徒手画出11:10或8:20",
 				safeAreaInsets: null,
@@ -62,13 +89,16 @@
 				this.safeAreaInsets = systemInfo.safeAreaInsets
 			},
 			onChange(data) {
-				this.videoPath = data;
 				this.$emit('onChange', data)
 			},
 			//* 删除已经选择的图片 *//
 			handleDelete() {
-				this.videoPath = '';
+				this.$emit('onChange', '')
 			},
+			// 结果变化
+			resultChange(e) {
+				this.score = e.detail.value.filter(value => value != "0").length;
+			}
 		},
 	}
 </script>
@@ -80,10 +110,6 @@
 		height: 100%;
 		padding: 16rpx;
 		overflow-y: auto;
-
-		&.detail-page {
-			min-height: 50vh;
-		}
 
 		.content {
 			box-sizing: border-box;
@@ -113,16 +139,42 @@
 				border-radius: 8px;
 			}
 
-			.delete {
+			.deleteBtn {
 				font-size: 16px;
 				width: calc(100% - 68px);
 				height: 32px;
+				padding: 4px 0;
 				border-radius: 4px;
 				color: #ffffff;
 				display: flex;
 				align-items: center;
 				justify-content: center;
 				background-color: rgba(255, 0, 0, 0.5);
+			}
+
+			.result {
+				margin-top: 8px;
+				width: 100%;
+
+				.label {
+					color: #999;
+				}
+
+				.value-wrap {
+					display: flex;
+					flex-direction: column;
+
+					.item-wrpa {
+						display: flex;
+						align-items: center;
+						margin-top: 8px;
+					}
+				}
+			}
+
+			.score {
+				margin-top: 24px;
+				width: 100%;
 			}
 		}
 	}
