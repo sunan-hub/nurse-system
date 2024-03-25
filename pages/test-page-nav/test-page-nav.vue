@@ -123,6 +123,7 @@
 			handleSubmit() {
 				console.log('第一个表单数据', JSON.stringify(store.state.evaluateFormData))
 				console.log('第二个表单数据', JSON.stringify(store.state.miniCogData))
+				console.log('第三个表单数据', JSON.stringify(store.state.hisData))
 				uni.switchTab({
 					url: '/pages/result/result'
 				})

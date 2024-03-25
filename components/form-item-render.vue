@@ -3,13 +3,13 @@
 		<view class="label">{{ item.label }}</view>
 
 		<!-- 可编辑态 -->
-		<view class="value-wrap" v-if="!disable">
+		<view class="value-wrap" v-if="!disable || showText">
 			<!-- 单选框 -->
 			<radio-group v-if="item.type == 'radio'" @change="onChange">
 				<view class="radio-items-wrap" :class="item.options.length > 3 && 'column'">
 					<template v-for="option in item.options">
 						<label :key="option.value">
-							<radio :value="option.value" :checked="getChecked(option.value)" />
+							<radio :value="option.value" :checked="getChecked(option.value)" :disabled="disable" />
 							<text class="text">{{ option.label }}</text>
 						</label>
 					</template>
@@ -20,17 +20,18 @@
 				<view class="checkbox-items-wrap" :class="item.options.length > 3 && 'column'">
 					<template v-for="option in item.options">
 						<label :key="option.value" class="radio-item-wrap">
-							<checkbox :value="option.value" :checked="getChecked(option.value)" />
+							<checkbox :value="option.value" :checked="getChecked(option.value)" :disabled="disable" />
 							<text class="text">{{ option.label }}</text>
 						</label>
 					</template>
 				</view>
 			</checkbox-group>
 			<!-- 数字输入框 -->
-			<input v-else-if="item.type == 'number'" type="number" :placeholder="'请输入' + item.label"
+			<input v-else-if="item.type == 'number'" type="number" :placeholder="'请输入' + item.label" :disabled="disable"
 				v-model="currentValue" />
 			<!-- 输入框 -->
-			<input v-else-if="item.type == 'input'" :placeholder="'请输入' + item.label" v-model="currentValue" />
+			<input v-else-if="item.type == 'input'" :placeholder="'请输入' + item.label" :disabled="disable"
+				v-model="currentValue" />
 		</view>
 
 		<!-- 仅展示状态 -->
@@ -54,7 +55,11 @@
 			disable: {
 				type: Boolean,
 				require: false,
-			}
+			},
+			showText: {
+				type: Boolean,
+				require: false,
+			},
 		},
 		data() {
 			return {
