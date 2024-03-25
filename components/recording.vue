@@ -2,7 +2,7 @@
 	<view class="page-wrap">
 		<view class="audioShow">
 			<view class="play-wrap">
-				<play-audio v-if="value && startRecording == 0" :src="value" />
+				<play-audio v-if="voicePath && startRecording == 0" :src="voicePath" />
 			</view>
 			<view class="recordBegin" @tap="startRecord" v-if="startRecording == 0 && !disable">
 				<view class="text">
@@ -43,6 +43,14 @@
 			tips: '',
 			disable: false
 		},
+		watch: {
+			value: {
+				deep: true,
+				handler(newValue, oldValue) {
+					this.voicePath = newValue
+				}
+			},
+		},
 		data() {
 			return {
 				safeAreaInsets: null,
@@ -61,6 +69,7 @@
 				timer: '',
 				isZant: false,
 				audioDuration: '',
+				voicePath: this.value || '',
 			}
 		},
 		created() {
@@ -150,7 +159,7 @@
 			endRecord() {
 				console.log('录音结束');
 				this.recorderManager.onStop(function(res) {
-					that.$emit('onChange', this.value)
+					this.voicePath = this.value
 				});
 				this.recorderManager.stop();
 				clearInterval(this.timer);
@@ -177,37 +186,39 @@
 			// 保存（暂停定时加上传）
 			saveRecord() {
 				let that = this;
-				this.recorderManager.onStop(function(res) {
-					that.$emit('onChange', res.tempFilePath)
-				});
+				new Promise((res, rej) => {
+					let myRes = res;
+					let that = this
+					this.recorderManager.onStop(function(res) {
+						that.voicePath = res.tempFilePath
+						myRes(res.tempFilePath)
+					});
+				}).then(res => this.audioAdd(res))
 				this.recorderManager.stop()
 				this.isZant = true;
 				clearInterval(this.timer);
 				this.audioContent == '';
-				setTimeout(() => {
-					this.audioAdd();
-				}, 300);
 			},
 			playVoice() {
 				console.log('播放录音');
-				if (this.value) {
-					this.innerAudioContext.src = this.value;
+				if (this.voicePath) {
+					this.innerAudioContext.src = this.voicePath;
 					this.innerAudioContext.play();
 				}
 			},
 			// 上传录音文件
-			audioAdd() {
+			audioAdd(data) {
 				uni.showToast({
 					title: '222'
 				});
-				console.log("上传录音文件 this.value", this.value)
+				console.log("上传录音文件 data", data, "上传录音文件 this.voicePath", this.voicePath)
 				uni.showLoading({
 					title: '保存中...'
 				});
-				if (this.value) {
+				if (data) {
 					// uni.uploadFile({
 					// 	url: 'http://47.113.91.80:8002/file_upload1', //仅为示例，非真实的接口地址
-					// 	filePath: this.value,
+					// 	filePath: data,
 					// 	name: 'img',
 
 					// 	formData: { //这里是上传图片时一起上传的数据
@@ -231,7 +242,7 @@
 					// 	}
 					// });
 					// 改成传给父级保存
-					this.$emit('onChange', this.value)
+					this.$emit('onChange', data)
 					uni.showToast({
 						title: '保存成功！',
 						icon: 'success'

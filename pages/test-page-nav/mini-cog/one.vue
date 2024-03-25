@@ -5,7 +5,7 @@
 				<text>{{ tips }}</text>
 			</view>
 
-			<recording style="width: 100%; flex: 1" @onChange="onChange" :value="value" :disable="isDetail" />
+			<recording style="width: 100%; flex: 1" @onChange="onChange" :value="value.voicePath" :disable="isDetail" />
 		</view>
 	</view>
 </template>
@@ -20,7 +20,7 @@
 			recording,
 		},
 		props: {
-			value: '',
+			value: Object,
 			isDetail: false
 		},
 		data() {
@@ -28,17 +28,11 @@
 				tips: '认真听并重复以下词语：\n苹果 手表 硬币'
 			}
 		},
-		mounted() {
-			this.getSafeAreaInsets()
-		},
 		methods: {
-			getSafeAreaInsets() {
-				// 获取屏幕边界到安全区域距离
-				const systemInfo = uni.getSystemInfoSync()
-				this.safeAreaInsets = systemInfo.safeAreaInsets
-			},
 			onChange(data) {
-				this.$emit('onChange', data)
+				this.$emit('onChange', {
+					voicePath: data
+				})
 			}
 		},
 	}

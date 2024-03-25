@@ -4,13 +4,13 @@
 
 		<view class="content">
 			<!-- 第一题录音 -->
-			<recordingOne v-if="current == 1 || isDetail" @onChange="handleSaveRecording" :value="recordingVoicePath1"
+			<recordingOne v-if="current == 1 || isDetail" @onChange="handleSaveRecording" :value="firstQuestion"
 				:isDetail="isDetail" />
 			<!-- 第二题画图 -->
-			<uploadVideo v-if="current == 2 || isDetail" @onChange="handleSaveVideo" :value="videoPath"
+			<uploadVideo v-if="current == 2 || isDetail" @onChange="handleSaveVideo" :value="secondQuestion"
 				:isDetail="isDetail" />
 			<!-- 第三题录音 -->
-			<recordingThree v-if="current == 3 || isDetail" @onChange="handleSaveRecording" :value="recordingVoicePath2"
+			<recordingThree v-if="current == 3 || isDetail" @onChange="handleSaveRecording" :value="thirdQuestion"
 				:isDetail="isDetail" />
 		</view>
 
@@ -46,9 +46,15 @@
 		data() {
 			return {
 				current: 1,
-				recordingVoicePath1: '',
-				recordingVoicePath2: '',
-				videoPath: '',
+				firstQuestion: {
+					voicePath: '',
+				},
+				secondQuestion: {
+					videoPath: '',
+				},
+				thirdQuestion: {
+					voicePath: ''
+				},
 				isDetail: false
 			}
 		},
@@ -64,12 +70,14 @@
 				if (type == 'up') this.current += 1;
 				else if (type == 'down') this.current -= 1;
 				else if (type == 'submit') {
+					const data = {
+						firstQuestion: this.firstQuestion,
+						secondQuestion: this.secondQuestion,
+						thirdQuestion: this.thirdQuestion
+					}
+					console.log('JSON.stringify(data)', JSON.stringify(data))
 					// 注入仓库
-					store.commit('setMiniCogData', {
-						recordingVoicePath1: this.recordingVoicePath1,
-						videoPath: this.videoPath,
-						recordingVoicePath2: this.recordingVoicePath2
-					})
+					store.commit('setMiniCogData', data)
 				} else uni.navigateBack().catch(() => {
 					uni.switchTab({
 						url: '/pages/home/home'
@@ -78,19 +86,33 @@
 			},
 			// 上传视频发生变化
 			handleSaveVideo(data) {
-				this.videoPath = data;
+				this.secondQuestion = data;
 			},
 			// 录音文件发生变化
 			handleSaveRecording(data) {
 				if (this.current == 3)
-					this.recordingVoicePath2 = data;
-				else this.recordingVoicePath1 = data;
+					this.thirdQuestion = data;
+				else this.firstQuestion = data;
 			},
 			// 赋值初始值
 			getData() {
-				this.recordingVoicePath1 = store.state.miniCogData?.recordingVoicePath1 || '';
-				this.recordingVoicePath2 = store.state.miniCogData?.recordingVoicePath2 || '';
-				this.videoPath = store.state.miniCogData?.videoPath || '';
+				const {
+					firstQuestion,
+					secondQuestion,
+					thirdQuestion
+				} = store.state.miniCogData || {}
+				// this.firstQuestion = JSON.parse(
+				// 	'{"voicePath":"_doc/uniapp_temp_1711375757022/recorder/1711375760731.aac"}') || firstQuestion || {};
+				// this.secondQuestion = JSON.parse(
+				// 	'{"videoPath":"file:///storage/emulated/0/Android/data/io.dcloud.HBuilder/apps/HBuilder/doc/uniapp_temp/compressed/1711372668721_wx_camera_1711339837942.jpg","result":["0","1"]}'
+				// ) || secondQuestion || {};
+				// this.thirdQuestion = JSON.parse(
+				// 		'{"voicePath":"_doc/uniapp_temp_1711376046364/recorder/1711376052413.aac","result":"2"}') ||
+				// 	thirdQuestion || {};
+
+				this.firstQuestion = firstQuestion || {};
+				this.secondQuestion = secondQuestion || {};
+				this.thirdQuestion = thirdQuestion || {};
 			},
 			// 跳转上下详情页
 			gotoDetail(url) {

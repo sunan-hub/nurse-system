@@ -7,38 +7,29 @@
 			</view>
 
 			<!-- 视频 -->
-			<upload-video :value="videoPath" @onChange="onChange" :disable="isDetail" />
+			<upload-video :value="value.videoPath" @onChange="onChange" :disable="isDetail" />
 
 			<!-- 删除按钮 -->
 			<view v-if="!!videoPath && !isDetail" class='deleteBtn' @click='handleDelete'>
 				删除重新拍摄
 			</view>
 
-			<view class="result" v-if="videoPath || true">
+			<view class="result" v-if="videoPath">
 				<view class="label"> 结果
 					答对个数：
 				</view>
 				<checkbox-group class="value-wrap" @change="resultChange">
-					<label class="item-wrpa">
-						<checkbox value="0" :disabled="isDetail" />画不出
-					</label>
-					<label class="item-wrpa">
-						<checkbox value="1" :disabled="isDetail" />画出闭锁的圆
-					</label>
-					<label class="item-wrpa">
-						<checkbox value="2" :disabled="isDetail" />将数字安置在正确的位置
-					</label>
-					<label class="item-wrpa">
-						<checkbox value="3" :disabled="isDetail" />包括全部12个正确的数字
-					</label>
-					<label class="item-wrpa">
-						<checkbox value="4" :disabled="isDetail" />将指针安置在正确的位置
-					</label>
+					<template v-for="option in resultItems">
+						<label :key="option.value" class="item-wrpa">
+							<checkbox :value="option.value" :disabled="isDetail" :checked="getChecked(option.value)" />
+							{{ option.label }}
+						</label>
+					</template>
 				</checkbox-group>
 			</view>
 
-			<view class="score" v-if="isDetail || true">
-				总得分：{{ score }}
+			<view class="score" v-if="isDetail">
+				总得分：{{ getScore() }}
 			</view>
 		</view>
 	</view>
@@ -53,7 +44,7 @@
 		},
 		props: {
 			value: {
-				type: String,
+				type: Object,
 				required: false
 			},
 			isDetail: {
@@ -65,18 +56,40 @@
 			value: {
 				deep: true,
 				handler(newValue, oldValue) {
-					this.videoPath = newValue
+					this.videoPath = newValue.videoPath;
+					this.result = newValue.result;
 				}
 			},
 		},
 		data() {
 			return {
-				score: 0, // 分数
-				videoPath: this.value, // 图片地址
+				result: this.value.result || [], // 分数
+				videoPath: this.value.videoPath, // 图片地址
 				quantityTableType: "Mini-Cog",
 				tips: "画出钟表表盘：\n徒手画出11:10或8:20",
 				safeAreaInsets: null,
 				quantityTable: "HIS量表",
+				resultItems: [{
+						label: '画不出',
+						value: '0'
+					},
+					{
+						label: '画出闭锁的圆',
+						value: '1'
+					},
+					{
+						label: '将数字安置在正确的位置',
+						value: '2'
+					},
+					{
+						label: '包括全部12个正确的数字',
+						value: '3'
+					},
+					{
+						label: '将指针安置在正确的位置',
+						value: '4'
+					},
+				]
 			}
 		},
 		mounted() {
@@ -89,15 +102,33 @@
 				this.safeAreaInsets = systemInfo.safeAreaInsets
 			},
 			onChange(data) {
-				this.$emit('onChange', data)
+				this.$emit('onChange', {
+					...this.value,
+					videoPath: data
+				})
 			},
 			//* 删除已经选择的图片 *//
 			handleDelete() {
-				this.$emit('onChange', '')
+				this.$emit('onChange', {
+					...this.value,
+					videoPath: ''
+				})
+			},
+			// 获取分数
+			getScore() {
+				return this.result?.filter(value => value != "0").length
 			},
 			// 结果变化
 			resultChange(e) {
-				this.score = e.detail.value.filter(value => value != "0").length;
+				this.result = e.detail.value;
+				this.$emit('onChange', {
+					...this.value,
+					result: e.detail.value
+				})
+			},
+			// 回显结果
+			getChecked(value) {
+				return this.result?.includes(value)
 			}
 		},
 	}

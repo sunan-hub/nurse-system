@@ -52,7 +52,7 @@
 				items: store.state.evaluateFormItems, // 渲染表单的配置
 				formData: {
 					...(JSON.parse(
-						'{"pationt_name":"孙安","sex":"1","age":"25","bmi":"100","birthplace":"海南昌江","address":"广州","city":"city","career":"1","drug":"0","drug_history":"虚无","smoke":"0","hobby":"3","hobby_puzzle":"很多","patient_id":"1","nurse":"1","created_at":"zza","score_sum":"1"}'
+						'{"pationt_name":"孙安","sex":"1","age":"25","bmi":"100","birthplace":"海南昌江","address":"广州","city":"city","career":"1","drug":"0","drug_history":"虚无","smoke":"0","hobby":"3","hobby_puzzle":"很多","patient_id":"1","nurse":"1","created_at":"zza","score_sum":"1","hobby_music":"音乐","hobby_Instrument":"乐器","hobby_others":"其他","habit_dietary":"1","habit_brushteeth":"1"," habit_stayup":"0","habit_sleep":"2","personality":"0","finance":"1","hypertension":"0","cad":"1","cad_medicine":"1","diabetes":"1","diabetes_control":"0","diabetes_medicine":"2","hereditary":"0","hereditary_others":"虚"}'
 					) || store.state.evaluateFormData || {})
 				},
 			}
@@ -107,6 +107,8 @@
 					store.commit('setEvaluateFormData', {
 						...this.formData
 					})
+					
+					console.log('JSON.stringify(this.formData)', JSON.stringify(this.formData))
 
 					// uni.showModal({
 					// 	content: '表单数据内容：' + JSON.stringify(this.formData),

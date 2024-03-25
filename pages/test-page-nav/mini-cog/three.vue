@@ -5,30 +5,24 @@
 				<text>{{ tips }}</text>
 			</view>
 
-			<recording style="width: 100%; flex: 1" @onChange="onChange" :value="value" :disable="isDetail" />
+			<recording style="width: 100%; flex: 1" @onChange="onChange" :value="voicePath" :disable="isDetail" />
 
-			<view class="result">
+			<view class="result" v-if="voicePath">
 				<view class="label">
 					答对个数：
 				</view>
 				<radio-group class="value-wrap" @change="resultChange">
-					<label class="item-wrpa">
-						<radio value="0" :disabled="isDetail" />0个
-					</label>
-					<label class="item-wrpa">
-						<radio value="1" :disabled="isDetail" />1个
-					</label>
-					<label class="item-wrpa">
-						<radio value="2" :disabled="isDetail" />2个
-					</label>
-					<label class="item-wrpa">
-						<radio value="3" :disabled="isDetail" />3个
-					</label>
+					<template v-for="option in resultItems">
+						<label :key="option.value" class="item-wrpa">
+							<radio :value="option.value" :disabled="isDetail" :checked="result == option.value" />
+							{{ option.label }}
+						</label>
+					</template>
 				</radio-group>
 			</view>
 
 			<view class="score" v-if="isDetail || true">
-				总得分：{{ score }}
+				总得分：{{ result }}
 			</view>
 		</view>
 	</view>
@@ -46,31 +40,56 @@
 			recording,
 		},
 		props: {
-			value: '',
+			value: Object,
 			isDetail: false
+		},
+		watch: {
+			value: {
+				deep: true,
+				handler(newValue, oldValue) {
+					this.voicePath = newValue.voicePath;
+					this.result = newValue.result;
+				}
+			},
 		},
 		data() {
 			return {
-				score: 0, // 分数
-				tips: '重复说出以上三个词'
+				result: this.value.result || 0, // 分数
+				voicePath: this.value.voicePath || '',
+				tips: '重复说出以上三个词',
+				resultItems: [{
+						label: '0个',
+						value: '0'
+					},
+					{
+						label: '1个',
+						value: '1'
+					},
+					{
+						label: '2个',
+						value: '2'
+					},
+					{
+						label: '3个',
+						value: '3'
+					},
+				]
 			}
 		},
-		mounted() {
-			this.getSafeAreaInsets()
-		},
 		methods: {
-			getSafeAreaInsets() {
-				// 获取屏幕边界到安全区域距离
-				const systemInfo = uni.getSystemInfoSync()
-				this.safeAreaInsets = systemInfo.safeAreaInsets
-			},
 			onChange(data) {
-				this.$emit('onChange', data)
+				this.$emit('onChange', {
+					...this.value,
+					voicePath: data
+				})
 			},
 			// 结果变化
 			resultChange(e) {
-				this.score = e.detail.value
-			}
+				this.$emit('onChange', {
+					...this.value,
+					result: e.detail.value
+				})
+			},
 		},
 	}
 </script>
