@@ -51,7 +51,7 @@
 				items: store.state.hisItems,
 				formData: { // 结构赋值，不然会直接更改仓库
 					...(JSON.parse(
-						'{"acute_onset":"1","step_deterioration":"0","fluctuating_course":"1","unconcisous":"0","integrate_personalities":"1","depression":"0","body_state":"1","affective_incontinence":"0","hypertension":"1","stroke":"0","arteriosclerotic":"1","neurological_symptoms":"0","neurological_signs":"1","patient_id":"1","patient_name":"1","nurse":"1","created_at":"zza","score_sum":"1"}'
+						'{"acute_onset":2,"step_deterioration":"0","fluctuating_course":2,"unconcisous":"0","integrate_personalities":"1","depression":"0","body_state":"1","affective_incontinence":"0","hypertension":"1","stroke":"0","arteriosclerotic":"1","neurological_symptoms":"0","neurological_signs":2,"patient_id":"1","patient_name":"1","nurse":"1","created_at":"zza","score_sum":"1"}'
 					) || store.state.hisData || {})
 				},
 				isDetail: false,
@@ -99,11 +99,21 @@
 						icon: 'none'
 					})
 				} else {
+					// 标记已完成
+					store.commit('markCompleted', 'his')
+
+					// 计算总分
+					let scoreSum = 0;
+					store.state.hisItems?.forEach((item) => {
+						if (typeof Number(this.formData[item.key]) == 'number')
+							scoreSum += Number(this.formData[item.key])
+					})
+					this.formData["score_sum"] = scoreSum
+
 					this.formData["patient_id"] = "1";
 					this.formData["patient_name"] = "1";
 					this.formData["nurse"] = "1";
 					this.formData["created_at"] = "zza";
-					this.formData["score_sum"] = "1";
 
 					// const result = JSON.stringify(this.formData);
 					//const result = this.formData;
@@ -114,7 +124,7 @@
 					store.commit('setHisData', {
 						...this.formData
 					})
-					console.log('33333333333', JSON.stringify(store.state.hisData));
+					console.log('33333333333', JSON.stringify(store.state.hisData), this.formData["score_sum"]);
 
 					//网络请求
 					// uni.request({

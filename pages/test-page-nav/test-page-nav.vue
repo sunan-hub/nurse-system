@@ -16,7 +16,7 @@
 						<text>{{ userId }}</text>
 					</view>
 				</view>
-				
+
 				<!-- 其它 -->
 				<view class="extra">
 					<uni-list>
@@ -55,42 +55,7 @@
 				// 录音
 				recordingVoicePath: '',
 				// 页面组件配置
-				itemList: [{
-						title: '阿尔兹海默病早期筛查及评估',
-						note: '',
-						thumb: '/static/quantityTable.png',
-						thumbSize: 'lg',
-						to: '/pages/test-page-nav/evaluate-form/evaluate-form'
-					},
-					{
-						title: 'Mini-Cog量表',
-						note: '',
-						thumb: '/static/quantityTable.png',
-						thumbSize: 'lg',
-						to: '/pages/test-page-nav/mini-cog/mini-cog'
-					},
-					{
-						title: 'HIS量表',
-						note: '',
-						thumb: '/static/quantityTable.png',
-						thumbSize: 'lg',
-						to: '/pages/test-page-nav/his/his'
-					},
-					{
-						title: 'MMSE量表',
-						note: '',
-						thumb: '/static/quantityTable.png',
-						thumbSize: 'lg',
-						to: '/pages/test-page-nav/mmse/mmse'
-					},
-					{
-						title: 'MoCA量表',
-						note: '',
-						thumb: '/static/quantityTable.png',
-						thumbSize: 'lg',
-						to: '/pages/test-page-nav/moca/moca'
-					},
-				]
+				itemList: store.state.pageNavItems || []
 			}
 		},
 		onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
@@ -101,6 +66,7 @@
 			// 清除数据
 			// store.commit('clearTestPageData');
 		},
+		mounted() {},
 		methods: {
 			openPage(url) {
 				uni.navigateTo({
@@ -127,7 +93,7 @@
 				uni.switchTab({
 					url: '/pages/result/result'
 				})
-			}
+			},
 		}
 	};
 </script>

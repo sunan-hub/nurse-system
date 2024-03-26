@@ -97,6 +97,9 @@
 						icon: 'none'
 					})
 				} else {
+					// 标记已完成
+					store.commit('markCompleted', 'evaluate-form')
+					
 					this.formData["patient_id"] = "1";
 					// this.formData["patient_name"] = "1";
 					this.formData["nurse"] = "1";

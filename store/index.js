@@ -53,10 +53,10 @@ const store = new Vuex.Store({
 				type: 'input'
 			},
 			{
-					label: '长期居住地',
-					key: 'address',
-					type: 'input'
-				},
+				label: '长期居住地',
+				key: 'address',
+				type: 'input'
+			},
 			{
 				label: '长期居住地（具体）',
 				key: 'city',
@@ -462,16 +462,16 @@ const store = new Vuex.Store({
 				}, {
 					label: '双胍类',
 					value: '1',
-				},{
+				}, {
 					label: 'α糖苷酶抑制剂',
 					value: '2',
 				}, {
 					label: 'SGLT23SGLT2',
 					value: '3',
-				},{
+				}, {
 					label: 'DPP4抑制剂',
 					value: '4',
-				},{
+				}, {
 					label: '胰岛素',
 					value: '5',
 				}],
@@ -490,13 +490,13 @@ const store = new Vuex.Store({
 				}, {
 					label: '高血压病',
 					value: '1',
-				},{
+				}, {
 					label: '糖尿病',
 					value: '2',
 				}, {
 					label: '帕金森病',
 					value: '3',
-				},{
+				}, {
 					label: '痴呆',
 					value: '4',
 				}],
@@ -507,17 +507,16 @@ const store = new Vuex.Store({
 				type: 'input'
 			},
 		],
-		hisItems: [
-			{
+		hisItems: [{
 				label: '1、急性起病',
 				key: 'acute_onset',
 				type: 'radio',
 				options: [{
 					label: '是',
-					value: '1',
+					value: 2,
 				}, {
 					label: '否',
-					value: '0',
+					value: 0,
 				}]
 			},
 			{
@@ -526,10 +525,10 @@ const store = new Vuex.Store({
 				type: 'radio',
 				options: [{
 					label: '是',
-					value: '1',
+					value: 1,
 				}, {
 					label: '否',
-					value: '0',
+					value: 0,
 				}]
 			},
 			{
@@ -538,10 +537,10 @@ const store = new Vuex.Store({
 				type: 'radio',
 				options: [{
 					label: '是',
-					value: '1',
+					value: 2,
 				}, {
 					label: '否',
-					value: '0',
+					value: 0,
 				}]
 			},
 			{
@@ -550,10 +549,10 @@ const store = new Vuex.Store({
 				type: 'radio',
 				options: [{
 					label: '是',
-					value: '1',
+					value: 1,
 				}, {
 					label: '否',
-					value: '0',
+					value: 0,
 				}]
 			},
 			{
@@ -562,10 +561,10 @@ const store = new Vuex.Store({
 				type: 'radio',
 				options: [{
 					label: '是',
-					value: '1',
+					value: 1,
 				}, {
 					label: '否',
-					value: '0',
+					value: 0,
 				}]
 			},
 			{
@@ -574,10 +573,10 @@ const store = new Vuex.Store({
 				type: 'radio',
 				options: [{
 					label: '是',
-					value: '1',
+					value: 1,
 				}, {
 					label: '否',
-					value: '0',
+					value: 0,
 				}]
 			},
 			{
@@ -586,10 +585,10 @@ const store = new Vuex.Store({
 				type: 'radio',
 				options: [{
 					label: '是',
-					value: '1',
+					value: 1,
 				}, {
 					label: '否',
-					value: '0',
+					value: 0,
 				}]
 			},
 			{
@@ -598,10 +597,10 @@ const store = new Vuex.Store({
 				type: 'radio',
 				options: [{
 					label: '是',
-					value: '1',
+					value: 1,
 				}, {
 					label: '否',
-					value: '0',
+					value: 0,
 				}]
 			},
 			{
@@ -610,10 +609,10 @@ const store = new Vuex.Store({
 				type: 'radio',
 				options: [{
 					label: '是',
-					value: '1',
+					value: 1,
 				}, {
 					label: '否',
-					value: '0',
+					value: 0,
 				}]
 			},
 			{
@@ -622,10 +621,10 @@ const store = new Vuex.Store({
 				type: 'radio',
 				options: [{
 					label: '是',
-					value: '1',
+					value: 1,
 				}, {
 					label: '否',
-					value: '0',
+					value: 0,
 				}]
 			},
 			{
@@ -634,10 +633,10 @@ const store = new Vuex.Store({
 				type: 'radio',
 				options: [{
 					label: '是',
-					value: '1',
+					value: 1,
 				}, {
 					label: '否',
-					value: '0',
+					value: 0,
 				}]
 			},
 			{
@@ -646,10 +645,10 @@ const store = new Vuex.Store({
 				type: 'radio',
 				options: [{
 					label: '是',
-					value: '1',
+					value: 1,
 				}, {
 					label: '否',
-					value: '0',
+					value: 0,
 				}]
 			},
 			{
@@ -658,12 +657,49 @@ const store = new Vuex.Store({
 				type: 'radio',
 				options: [{
 					label: '是',
-					value: '1',
+					value: 2,
 				}, {
 					label: '否',
-					value: '0',
+					value: 0,
 				}]
-			},]
+			},
+		],
+		pageNavItems: [{
+				title: '阿尔兹海默病早期筛查及评估',
+				note: '',
+				thumb: '/static/quantityTable.png',
+				thumbSize: 'lg',
+				to: '/pages/test-page-nav/evaluate-form/evaluate-form'
+			},
+			{
+				title: 'Mini-Cog量表',
+				note: '',
+				thumb: '/static/quantityTable.png',
+				thumbSize: 'lg',
+				to: '/pages/test-page-nav/mini-cog/mini-cog'
+			},
+			{
+				title: 'HIS量表',
+				note: '',
+				thumb: '/static/quantityTable.png',
+				thumbSize: 'lg',
+				to: '/pages/test-page-nav/his/his'
+			},
+			{
+				title: 'MMSE量表',
+				note: '',
+				thumb: '/static/quantityTable.png',
+				thumbSize: 'lg',
+				to: '/pages/test-page-nav/mmse/mmse'
+			},
+			{
+				title: 'MoCA量表',
+				note: '',
+				thumb: '/static/quantityTable.png',
+				thumbSize: 'lg',
+				to: '/pages/test-page-nav/moca/moca'
+			},
+		]
 	},
 	mutations: {
 		setEvaluateFormData(state, newData) {
@@ -679,6 +715,16 @@ const store = new Vuex.Store({
 		clearTestPageData(state) {
 			state.evaluateFormData = {};
 			state.miniCogData = {};
+		},
+		// 标记已完成
+		markCompleted(state, key) {
+			if (key == 'evaluate-form') {
+				state.pageNavItems[0].title = state.pageNavItems[0].title + ' (已完成)'
+			} else if (key == 'mini-cog') {
+				state.pageNavItems[1].title = state.pageNavItems[1].title + ' (已完成)'
+			} else if (key == 'his') {
+				state.pageNavItems[2].title = state.pageNavItems[2].title + ' (已完成)'
+			}
 		}
 	},
 })
