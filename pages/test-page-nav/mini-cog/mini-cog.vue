@@ -70,14 +70,29 @@
 				if (type == 'up') this.current += 1;
 				else if (type == 'down') this.current -= 1;
 				else if (type == 'submit') {
-					const data = {
-						firstQuestion: this.firstQuestion,
-						secondQuestion: this.secondQuestion,
-						thirdQuestion: this.thirdQuestion
+					// 判断是否有分数
+					if (!Object.keys(this.secondQuestion).includes('result')) {
+						this.current = 2;
+						uni.showToast({
+							title: '请上传图片后，并选择结果',
+							icon: 'none'
+						})
+					} else if (!Object.keys(this.thirdQuestion).includes('result')) {
+						this.current = 3;
+						uni.showToast({
+							title: '请完成录音后，并选择结果',
+							icon: 'none'
+						})
+					} else {
+						const data = {
+							firstQuestion: this.firstQuestion,
+							secondQuestion: this.secondQuestion,
+							thirdQuestion: this.thirdQuestion
+						}
+						console.log('JSON.stringify(data)', JSON.stringify(data))
+						// 注入仓库
+						store.commit('setMiniCogData', data)
 					}
-					console.log('JSON.stringify(data)', JSON.stringify(data))
-					// 注入仓库
-					store.commit('setMiniCogData', data)
 				} else uni.navigateBack().catch(() => {
 					uni.switchTab({
 						url: '/pages/home/home'
@@ -101,6 +116,7 @@
 					secondQuestion,
 					thirdQuestion
 				} = store.state.miniCogData || {}
+
 				// this.firstQuestion = JSON.parse(
 				// 	'{"voicePath":"_doc/uniapp_temp_1711375757022/recorder/1711375760731.aac"}') || firstQuestion || {};
 				// this.secondQuestion = JSON.parse(

@@ -719,13 +719,13 @@ const store = new Vuex.Store({
 		// 标记已完成
 		markCompleted(state, key) {
 			if (key == 'evaluate-form') {
-				if (state.pageNavItems[0].title?.includes('已完成'))
+				if (!state.pageNavItems[0].title?.includes('已完成'))
 					state.pageNavItems[0].title = state.pageNavItems[0].title + ' (已完成)'
 			} else if (key == 'mini-cog') {
-				if (state.pageNavItems[1].title?.includes('已完成'))
+				if (!state.pageNavItems[1].title?.includes('已完成'))
 					state.pageNavItems[1].title = state.pageNavItems[1].title + ' (已完成)'
 			} else if (key == 'his') {
-				if (state.pageNavItems[2].title?.includes('已完成'))
+				if (!state.pageNavItems[2].title?.includes('已完成'))
 					state.pageNavItems[2].title = state.pageNavItems[2].title + ' (已完成)'
 			}
 		}
